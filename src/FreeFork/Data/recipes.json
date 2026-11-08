@@ -1,0 +1,1217 @@
+[
+{
+"id": "oats_banana",
+"ru": "Овсянка с бананом и орехами",
+"en": "Banana-walnut oatmeal",
+"meals": [
+"breakfast"
+],
+"minutes": 10,
+"ingredients": [
+{
+"food": "oats_dry",
+"g": 50.0
+},
+{
+"food": "milk",
+"g": 150.0
+},
+{
+"food": "banana",
+"g": 110.0
+},
+{
+"food": "walnuts",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Залейте хлопья горячим молоком и варите 5 минут.",
+"Добавьте нарезанный банан и орехи."
+],
+"stepsEn": [
+"Cook the oats in hot milk for 5 minutes.",
+"Top with sliced banana and walnuts."
+]
+},
+{
+"id": "omelet_cheese",
+"ru": "Омлет с сыром и помидором",
+"en": "Cheese & tomato omelette",
+"meals": [
+"breakfast",
+"dinner"
+],
+"minutes": 10,
+"ingredients": [
+{
+"food": "egg",
+"g": 165.0
+},
+{
+"food": "milk",
+"g": 50.0
+},
+{
+"food": "cheese",
+"g": 20.0
+},
+{
+"food": "tomato",
+"g": 80.0
+},
+{
+"food": "butter",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Взбейте яйца с молоком.",
+"Обжарьте на масле с помидором 3 минуты.",
+"Посыпьте сыром и накройте крышкой на минуту."
+],
+"stepsEn": [
+"Whisk eggs with milk.",
+"Fry in butter with tomato for 3 minutes.",
+"Add cheese, cover for a minute."
+]
+},
+{
+"id": "egg_toast_avocado",
+"ru": "Тост с яйцом и авокадо",
+"en": "Avocado egg toast",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 10,
+"ingredients": [
+{
+"food": "egg",
+"g": 110.0
+},
+{
+"food": "toast",
+"g": 50.0
+},
+{
+"food": "avocado",
+"g": 60.0
+}
+],
+"stepsRu": [
+"Поджарьте тосты.",
+"Разомните авокадо и намажьте на тост.",
+"Сверху выложите яйца (варёные или пашот)."
+],
+"stepsEn": [
+"Toast the bread.",
+"Mash avocado and spread on toast.",
+"Top with boiled or poached eggs."
+]
+},
+{
+"id": "syrniki_plain",
+"ru": "Сырники",
+"en": "Syrniki (cottage cheese pancakes)",
+"meals": [
+"breakfast"
+],
+"minutes": 20,
+"ingredients": [
+{
+"food": "cottage_5",
+"g": 200.0
+},
+{
+"food": "egg",
+"g": 55.0
+},
+{
+"food": "flour",
+"g": 30.0
+},
+{
+"food": "sugar",
+"g": 10.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Смешайте творог, яйцо, муку и сахар.",
+"Сформируйте сырники и обжарьте с двух сторон до золотистой корочки."
+],
+"stepsEn": [
+"Mix cottage cheese, egg, flour and sugar.",
+"Shape patties and fry until golden on both sides."
+]
+},
+{
+"id": "greek_yogurt_berries",
+"ru": "Греческий йогурт с ягодами",
+"en": "Greek yogurt with berries",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 3,
+"ingredients": [
+{
+"food": "yogurt_greek",
+"g": 200.0
+},
+{
+"food": "blueberry",
+"g": 80.0
+},
+{
+"food": "honey",
+"g": 10.0
+},
+{
+"food": "almonds",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Выложите йогурт в миску.",
+"Добавьте ягоды, мёд и орехи."
+],
+"stepsEn": [
+"Spoon yogurt into a bowl.",
+"Top with berries, honey and nuts."
+]
+},
+{
+"id": "buckwheat_chicken",
+"ru": "Гречка с курицей и овощами",
+"en": "Buckwheat with chicken & veggies",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 30,
+"ingredients": [
+{
+"food": "grechka_dry",
+"g": 70.0
+},
+{
+"food": "chicken_breast",
+"g": 130.0
+},
+{
+"food": "onion",
+"g": 50.0
+},
+{
+"food": "carrot",
+"g": 50.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Отварите гречку.",
+"Обжарьте лук и морковь, добавьте нарезанную курицу и тушите 10 минут.",
+"Смешайте с гречкой."
+],
+"stepsEn": [
+"Boil the buckwheat.",
+"Sauté onion and carrot, add diced chicken and simmer 10 minutes.",
+"Combine with buckwheat."
+]
+},
+{
+"id": "chicken_rice_broccoli",
+"ru": "Курица с рисом и брокколи",
+"en": "Chicken, rice & broccoli",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 25,
+"ingredients": [
+{
+"food": "rice_dry",
+"g": 70.0
+},
+{
+"food": "chicken_breast",
+"g": 150.0
+},
+{
+"food": "broccoli",
+"g": 150.0
+},
+{
+"food": "soy_sauce",
+"g": 15.0
+},
+{
+"food": "sunflower_oil",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Отварите рис.",
+"Обжарьте курицу кусочками, добавьте брокколи и соевый соус.",
+"Подавайте с рисом."
+],
+"stepsEn": [
+"Cook the rice.",
+"Stir-fry chicken pieces, add broccoli and soy sauce.",
+"Serve over rice."
+]
+},
+{
+"id": "pasta_tuna",
+"ru": "Паста с тунцом и томатами",
+"en": "Tuna tomato pasta",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 20,
+"ingredients": [
+{
+"food": "pasta_dry",
+"g": 80.0
+},
+{
+"food": "tuna_can",
+"g": 80.0
+},
+{
+"food": "tomato",
+"g": 150.0
+},
+{
+"food": "olive_oil",
+"g": 8.0
+},
+{
+"food": "garlic",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Отварите пасту.",
+"На масле прогрейте чеснок и томаты, добавьте тунец.",
+"Смешайте с пастой."
+],
+"stepsEn": [
+"Cook the pasta.",
+"Warm garlic and tomatoes in oil, add tuna.",
+"Toss with pasta."
+]
+},
+{
+"id": "pasta_bolognese",
+"ru": "Паста болоньезе",
+"en": "Pasta bolognese",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 35,
+"ingredients": [
+{
+"food": "pasta_dry",
+"g": 80.0
+},
+{
+"food": "beef_mince",
+"g": 120.0
+},
+{
+"food": "tomato",
+"g": 150.0
+},
+{
+"food": "onion",
+"g": 50.0
+},
+{
+"food": "olive_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Обжарьте лук и фарш.",
+"Добавьте томаты и тушите 15 минут.",
+"Подавайте с отварной пастой."
+],
+"stepsEn": [
+"Brown the onion and mince.",
+"Add tomatoes and simmer 15 minutes.",
+"Serve with cooked pasta."
+]
+},
+{
+"id": "greek_salad_recipe",
+"ru": "Греческий салат",
+"en": "Greek salad",
+"meals": [
+"lunch",
+"dinner",
+"snack"
+],
+"minutes": 10,
+"ingredients": [
+{
+"food": "tomato",
+"g": 150.0
+},
+{
+"food": "cucumber",
+"g": 100.0
+},
+{
+"food": "bell_pepper",
+"g": 50.0
+},
+{
+"food": "feta",
+"g": 60.0
+},
+{
+"food": "olives",
+"g": 30.0
+},
+{
+"food": "olive_oil",
+"g": 10.0
+},
+{
+"food": "onion",
+"g": 20.0
+}
+],
+"stepsRu": [
+"Нарежьте овощи крупными кусками.",
+"Добавьте фету и оливки, заправьте маслом."
+],
+"stepsEn": [
+"Chop vegetables into chunks.",
+"Add feta and olives, dress with oil."
+]
+},
+{
+"id": "tuna_egg_salad",
+"ru": "Салат с тунцом и яйцом",
+"en": "Tuna & egg salad",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 15,
+"ingredients": [
+{
+"food": "lettuce",
+"g": 80.0
+},
+{
+"food": "tuna_can",
+"g": 80.0
+},
+{
+"food": "egg",
+"g": 55.0
+},
+{
+"food": "cucumber",
+"g": 80.0
+},
+{
+"food": "tomato",
+"g": 80.0
+},
+{
+"food": "olive_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Отварите яйцо.",
+"Нарежьте овощи, добавьте тунец и яйцо.",
+"Заправьте маслом."
+],
+"stepsEn": [
+"Boil the egg.",
+"Chop the vegetables, add tuna and egg.",
+"Dress with oil."
+]
+},
+{
+"id": "salmon_potato",
+"ru": "Лосось с картофелем и брокколи",
+"en": "Baked salmon with potatoes",
+"meals": [
+"dinner"
+],
+"minutes": 30,
+"ingredients": [
+{
+"food": "salmon",
+"g": 150.0
+},
+{
+"food": "potato_boiled",
+"g": 200.0
+},
+{
+"food": "broccoli",
+"g": 100.0
+},
+{
+"food": "olive_oil",
+"g": 5.0
+},
+{
+"food": "lemon",
+"g": 20.0
+}
+],
+"stepsRu": [
+"Запеките лосось с лимоном 15 минут при 200 °C.",
+"Отварите картофель и брокколи.",
+"Подавайте вместе."
+],
+"stepsEn": [
+"Bake salmon with lemon 15 minutes at 200 °C.",
+"Boil potatoes and broccoli.",
+"Serve together."
+]
+},
+{
+"id": "chicken_veg_stew",
+"ru": "Овощное рагу с курицей",
+"en": "Chicken & vegetable stew",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 40,
+"ingredients": [
+{
+"food": "chicken_thigh",
+"g": 130.0
+},
+{
+"food": "zucchini",
+"g": 150.0
+},
+{
+"food": "eggplant",
+"g": 100.0
+},
+{
+"food": "tomato",
+"g": 100.0
+},
+{
+"food": "onion",
+"g": 50.0
+},
+{
+"food": "bell_pepper",
+"g": 80.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Обжарьте курицу.",
+"Добавьте нарезанные овощи и тушите под крышкой 25 минут."
+],
+"stepsEn": [
+"Brown the chicken.",
+"Add chopped vegetables and simmer covered for 25 minutes."
+]
+},
+{
+"id": "lentil_soup",
+"ru": "Чечевичный суп",
+"en": "Lentil soup",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 30,
+"ingredients": [
+{
+"food": "lentils",
+"g": 200.0
+},
+{
+"food": "carrot",
+"g": 60.0
+},
+{
+"food": "onion",
+"g": 50.0
+},
+{
+"food": "tomato",
+"g": 100.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Обжарьте лук и морковь.",
+"Добавьте чечевицу, томаты и воду, варите 15 минут."
+],
+"stepsEn": [
+"Sauté onion and carrot.",
+"Add lentils, tomatoes and water, cook 15 minutes."
+]
+},
+{
+"id": "hummus_toast",
+"ru": "Тосты с хумусом и овощами",
+"en": "Hummus veggie toast",
+"meals": [
+"breakfast",
+"snack",
+"lunch"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "bread_whole",
+"g": 60.0
+},
+{
+"food": "hummus",
+"g": 60.0
+},
+{
+"food": "cucumber",
+"g": 60.0
+},
+{
+"food": "tomato",
+"g": 50.0
+}
+],
+"stepsRu": [
+"Намажьте хумус на хлеб.",
+"Выложите овощи."
+],
+"stepsEn": [
+"Spread hummus on bread.",
+"Top with vegetables."
+]
+},
+{
+"id": "tofu_bowl",
+"ru": "Боул с тофу и рисом",
+"en": "Tofu rice bowl",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 25,
+"ingredients": [
+{
+"food": "tofu",
+"g": 150.0
+},
+{
+"food": "rice_dry",
+"g": 60.0
+},
+{
+"food": "carrot",
+"g": 60.0
+},
+{
+"food": "cabbage",
+"g": 80.0
+},
+{
+"food": "soy_sauce",
+"g": 15.0
+},
+{
+"food": "sunflower_oil",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Отварите рис.",
+"Обжарьте тофу с овощами и соевым соусом.",
+"Выложите на рис."
+],
+"stepsEn": [
+"Cook the rice.",
+"Stir-fry tofu and vegetables with soy sauce.",
+"Serve over rice."
+]
+},
+{
+"id": "ham_cheese_sandwich",
+"ru": "Бутерброд с ветчиной и сыром",
+"en": "Ham & cheese sandwich",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "bread_white",
+"g": 60.0
+},
+{
+"food": "ham",
+"g": 40.0
+},
+{
+"food": "cheese",
+"g": 25.0
+},
+{
+"food": "tomato",
+"g": 50.0
+},
+{
+"food": "butter",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Намажьте хлеб маслом.",
+"Добавьте ветчину, сыр и помидор."
+],
+"stepsEn": [
+"Butter the bread.",
+"Add ham, cheese and tomato."
+]
+},
+{
+"id": "cottage_fruit",
+"ru": "Творог с фруктами и мёдом",
+"en": "Cottage cheese with fruit",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "cottage_0",
+"g": 200.0
+},
+{
+"food": "apple",
+"g": 100.0
+},
+{
+"food": "banana",
+"g": 60.0
+},
+{
+"food": "honey",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Нарежьте фрукты.",
+"Смешайте с творогом и полейте мёдом."
+],
+"stepsEn": [
+"Slice the fruit.",
+"Mix with cottage cheese and drizzle honey."
+]
+},
+{
+"id": "potato_mince_bake",
+"ru": "Картофельная запеканка с фаршем",
+"en": "Potato & mince bake",
+"meals": [
+"dinner"
+],
+"minutes": 50,
+"ingredients": [
+{
+"food": "potato_boiled",
+"g": 250.0
+},
+{
+"food": "beef_mince",
+"g": 100.0
+},
+{
+"food": "onion",
+"g": 40.0
+},
+{
+"food": "cheese",
+"g": 20.0
+},
+{
+"food": "sour_cream",
+"g": 20.0
+}
+],
+"stepsRu": [
+"Выложите слоями картофель и обжаренный фарш с луком.",
+"Посыпьте сыром и запекайте 25 минут."
+],
+"stepsEn": [
+"Layer potatoes with fried mince and onion.",
+"Top with cheese and bake 25 minutes."
+]
+},
+{
+"id": "lavash_chicken_wrap",
+"ru": "Ролл в лаваше с курицей",
+"en": "Chicken wrap",
+"meals": [
+"lunch",
+"snack"
+],
+"minutes": 10,
+"ingredients": [
+{
+"food": "lavash",
+"g": 80.0
+},
+{
+"food": "chicken_breast",
+"g": 100.0
+},
+{
+"food": "cucumber",
+"g": 60.0
+},
+{
+"food": "tomato",
+"g": 60.0
+},
+{
+"food": "yogurt",
+"g": 30.0
+}
+],
+"stepsRu": [
+"Нарежьте курицу и овощи.",
+"Заверните в лаваш с йогуртовым соусом."
+],
+"stepsEn": [
+"Slice the chicken and vegetables.",
+"Wrap in lavash with yogurt sauce."
+]
+},
+{
+"id": "protein_smoothie",
+"ru": "Протеиновый смузи",
+"en": "Protein smoothie",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "milk",
+"g": 250.0
+},
+{
+"food": "banana",
+"g": 120.0
+},
+{
+"food": "protein_powder",
+"g": 30.0
+},
+{
+"food": "peanut_butter",
+"g": 15.0
+}
+],
+"stepsRu": [
+"Взбейте всё блендером."
+],
+"stepsEn": [
+"Blend everything until smooth."
+]
+},
+{
+"id": "fried_rice_egg",
+"ru": "Жареный рис с яйцом",
+"en": "Egg fried rice",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 20,
+"ingredients": [
+{
+"food": "rice_dry",
+"g": 70.0
+},
+{
+"food": "egg",
+"g": 110.0
+},
+{
+"food": "carrot",
+"g": 50.0
+},
+{
+"food": "peas",
+"g": 50.0
+},
+{
+"food": "soy_sauce",
+"g": 15.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Отварите рис и остудите.",
+"Обжарьте овощи, добавьте яйца и рис, заправьте соевым соусом."
+],
+"stepsEn": [
+"Cook and cool the rice.",
+"Fry the vegetables, add eggs and rice, season with soy sauce."
+]
+},
+{
+"id": "tomato_cucumber_salad",
+"ru": "Салат из овощей со сметаной",
+"en": "Veggie salad with sour cream",
+"meals": [
+"lunch",
+"dinner",
+"snack"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "tomato",
+"g": 150.0
+},
+{
+"food": "cucumber",
+"g": 150.0
+},
+{
+"food": "sour_cream",
+"g": 30.0
+},
+{
+"food": "onion",
+"g": 20.0
+}
+],
+"stepsRu": [
+"Нарежьте овощи.",
+"Заправьте сметаной."
+],
+"stepsEn": [
+"Chop the vegetables.",
+"Dress with sour cream."
+]
+},
+{
+"id": "zucchini_fritters",
+"ru": "Кабачковые оладьи",
+"en": "Zucchini fritters",
+"meals": [
+"breakfast",
+"lunch",
+"dinner"
+],
+"minutes": 25,
+"ingredients": [
+{
+"food": "zucchini",
+"g": 250.0
+},
+{
+"food": "egg",
+"g": 55.0
+},
+{
+"food": "flour",
+"g": 40.0
+},
+{
+"food": "sour_cream",
+"g": 30.0
+},
+{
+"food": "sunflower_oil",
+"g": 8.0
+}
+],
+"stepsRu": [
+"Натрите кабачок, отожмите.",
+"Смешайте с яйцом и мукой, обжарьте оладьи.",
+"Подавайте со сметаной."
+],
+"stepsEn": [
+"Grate and squeeze the zucchini.",
+"Mix with egg and flour, fry fritters.",
+"Serve with sour cream."
+]
+},
+{
+"id": "tuna_avocado_bowl",
+"ru": "Боул с тунцом и авокадо",
+"en": "Tuna avocado bowl",
+"meals": [
+"lunch",
+"dinner"
+],
+"minutes": 20,
+"ingredients": [
+{
+"food": "rice_dry",
+"g": 60.0
+},
+{
+"food": "tuna_can",
+"g": 80.0
+},
+{
+"food": "avocado",
+"g": 60.0
+},
+{
+"food": "cucumber",
+"g": 80.0
+},
+{
+"food": "soy_sauce",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Отварите рис.",
+"Сверху выложите тунец, авокадо и огурец."
+],
+"stepsEn": [
+"Cook the rice.",
+"Top with tuna, avocado and cucumber."
+]
+},
+{
+"id": "buckwheat_milk",
+"ru": "Гречневая каша с молоком",
+"en": "Buckwheat milk porridge",
+"meals": [
+"breakfast"
+],
+"minutes": 25,
+"ingredients": [
+{
+"food": "grechka_dry",
+"g": 60.0
+},
+{
+"food": "milk",
+"g": 200.0
+},
+{
+"food": "butter",
+"g": 5.0
+},
+{
+"food": "honey",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Отварите гречку в молоке до готовности.",
+"Добавьте масло и мёд."
+],
+"stepsEn": [
+"Cook buckwheat in milk until tender.",
+"Add butter and honey."
+]
+},
+{
+"id": "shakshuka",
+"ru": "Шакшука",
+"en": "Shakshuka",
+"meals": [
+"breakfast",
+"lunch",
+"dinner"
+],
+"minutes": 25,
+"ingredients": [
+{
+"food": "egg",
+"g": 110.0
+},
+{
+"food": "tomato",
+"g": 200.0
+},
+{
+"food": "bell_pepper",
+"g": 80.0
+},
+{
+"food": "onion",
+"g": 50.0
+},
+{
+"food": "olive_oil",
+"g": 8.0
+},
+{
+"food": "feta",
+"g": 30.0
+}
+],
+"stepsRu": [
+"Обжарьте лук и перец, добавьте томаты.",
+"Сделайте лунки, вбейте яйца, накройте крышкой на 6 минут.",
+"Посыпьте фетой."
+],
+"stepsEn": [
+"Sauté onion and pepper, add tomatoes.",
+"Make wells, crack in eggs, cover for 6 minutes.",
+"Sprinkle with feta."
+]
+},
+{
+"id": "fruit_yogurt_salad",
+"ru": "Фруктовый салат с йогуртом",
+"en": "Fruit salad with yogurt",
+"meals": [
+"breakfast",
+"snack"
+],
+"minutes": 5,
+"ingredients": [
+{
+"food": "apple",
+"g": 100.0
+},
+{
+"food": "banana",
+"g": 60.0
+},
+{
+"food": "orange",
+"g": 100.0
+},
+{
+"food": "kiwi",
+"g": 75.0
+},
+{
+"food": "yogurt",
+"g": 100.0
+},
+{
+"food": "honey",
+"g": 10.0
+}
+],
+"stepsRu": [
+"Нарежьте фрукты кубиками.",
+"Заправьте йогуртом и мёдом."
+],
+"stepsEn": [
+"Dice the fruit.",
+"Dress with yogurt and honey."
+]
+},
+{
+"id": "turkey_veg_plate",
+"ru": "Индейка с овощами и картофелем",
+"en": "Turkey with veggies & potatoes",
+"meals": [
+"dinner"
+],
+"minutes": 30,
+"ingredients": [
+{
+"food": "turkey",
+"g": 150.0
+},
+{
+"food": "potato_boiled",
+"g": 150.0
+},
+{
+"food": "cauliflower",
+"g": 100.0
+},
+{
+"food": "carrot",
+"g": 50.0
+},
+{
+"food": "olive_oil",
+"g": 6.0
+}
+],
+"stepsRu": [
+"Запеките индейку и овощи 25 минут.",
+"Подавайте с отварным картофелем."
+],
+"stepsEn": [
+"Bake turkey and vegetables for 25 minutes.",
+"Serve with boiled potatoes."
+]
+},
+{
+"id": "mushroom_omelet",
+"ru": "Омлет с грибами и шпинатом",
+"en": "Mushroom spinach omelette",
+"meals": [
+"breakfast",
+"dinner"
+],
+"minutes": 12,
+"ingredients": [
+{
+"food": "egg",
+"g": 165.0
+},
+{
+"food": "mushrooms",
+"g": 100.0
+},
+{
+"food": "spinach",
+"g": 40.0
+},
+{
+"food": "butter",
+"g": 5.0
+}
+],
+"stepsRu": [
+"Обжарьте грибы со шпинатом.",
+"Залейте взбитыми яйцами и готовьте под крышкой 4 минуты."
+],
+"stepsEn": [
+"Fry mushrooms and spinach.",
+"Pour in beaten eggs and cook covered for 4 minutes."
+]
+}
+]

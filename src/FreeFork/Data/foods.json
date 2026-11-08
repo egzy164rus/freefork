@@ -1,0 +1,2829 @@
+[
+{
+"id": "grechka_cooked",
+"ru": "Гречка варёная",
+"en": "Buckwheat, cooked",
+"kcal": 110.0,
+"p": 4.2,
+"f": 1.1,
+"c": 21.3,
+"fiber": 2.7,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "grechka",
+"aliases": [
+"гречка",
+"гречневая каша",
+"buckwheat"
+]
+},
+{
+"id": "grechka_dry",
+"ru": "Гречка сухая",
+"en": "Buckwheat, dry",
+"kcal": 313.0,
+"p": 12.6,
+"f": 3.3,
+"c": 62.1,
+"fiber": 11.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "grechka",
+"aliases": [
+"крупа гречневая"
+]
+},
+{
+"id": "rice_cooked",
+"ru": "Рис варёный",
+"en": "Rice, cooked",
+"kcal": 130.0,
+"p": 2.7,
+"f": 0.3,
+"c": 28.0,
+"fiber": 0.4,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "rice",
+"aliases": [
+"рис",
+"белый рис",
+"rice"
+]
+},
+{
+"id": "rice_dry",
+"ru": "Рис сухой",
+"en": "Rice, dry",
+"kcal": 344.0,
+"p": 6.7,
+"f": 0.7,
+"c": 78.9,
+"fiber": 1.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "rice",
+"aliases": [
+"крупа рисовая"
+]
+},
+{
+"id": "oatmeal",
+"ru": "Овсяная каша на воде",
+"en": "Oatmeal porridge",
+"kcal": 71.0,
+"p": 2.5,
+"f": 1.5,
+"c": 12.0,
+"fiber": 1.7,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "oat",
+"aliases": [
+"овсянка",
+"овсяная каша",
+"porridge",
+"oatmeal"
+]
+},
+{
+"id": "oats_dry",
+"ru": "Овсяные хлопья",
+"en": "Rolled oats",
+"kcal": 366.0,
+"p": 12.3,
+"f": 6.1,
+"c": 59.5,
+"fiber": 8.2,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "oat",
+"aliases": [
+"геркулес",
+"хлопья",
+"овсянка сухая",
+"oats"
+]
+},
+{
+"id": "pasta_cooked",
+"ru": "Макароны варёные",
+"en": "Pasta, cooked",
+"kcal": 131.0,
+"p": 5.0,
+"f": 1.1,
+"c": 25.0,
+"fiber": 1.8,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "pasta",
+"aliases": [
+"макароны",
+"паста",
+"спагетти",
+"лапша",
+"pasta",
+"spaghetti",
+"noodles"
+]
+},
+{
+"id": "pasta_dry",
+"ru": "Макароны сухие",
+"en": "Pasta, dry",
+"kcal": 352.0,
+"p": 12.0,
+"f": 1.5,
+"c": 71.5,
+"fiber": 3.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "pasta",
+"aliases": [
+"паста сухая"
+]
+},
+{
+"id": "potato_boiled",
+"ru": "Картофель варёный",
+"en": "Potato, boiled",
+"kcal": 82.0,
+"p": 2.0,
+"f": 0.4,
+"c": 16.7,
+"fiber": 1.8,
+"pieceG": 120.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 200.0,
+"family": "potato",
+"aliases": [
+"картофель",
+"картошка",
+"potato"
+]
+},
+{
+"id": "potato_fried",
+"ru": "Картофель жареный",
+"en": "Potato, fried",
+"kcal": 192.0,
+"p": 2.8,
+"f": 9.5,
+"c": 23.4,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "potato",
+"aliases": [
+"жареная картошка"
+]
+},
+{
+"id": "potato_mashed",
+"ru": "Картофельное пюре",
+"en": "Mashed potatoes",
+"kcal": 106.0,
+"p": 2.0,
+"f": 3.3,
+"c": 16.0,
+"fiber": 1.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "potato",
+"aliases": [
+"пюре",
+"картошка пюре",
+"mashed potato"
+]
+},
+{
+"id": "fries",
+"ru": "Картофель фри",
+"en": "French fries",
+"kcal": 312.0,
+"p": 3.4,
+"f": 15.0,
+"c": 41.0,
+"fiber": 3.8,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 120.0,
+"family": "fries",
+"aliases": [
+"фри",
+"fries"
+]
+},
+{
+"id": "bread_white",
+"ru": "Хлеб белый",
+"en": "White bread",
+"kcal": 266.0,
+"p": 8.1,
+"f": 3.2,
+"c": 48.8,
+"fiber": 2.7,
+"pieceG": 30.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 30.0,
+"family": "bread",
+"aliases": [
+"хлеб",
+"батон",
+"bread"
+]
+},
+{
+"id": "bread_rye",
+"ru": "Хлеб ржаной",
+"en": "Rye bread",
+"kcal": 214.0,
+"p": 6.6,
+"f": 1.2,
+"c": 40.9,
+"fiber": 5.8,
+"pieceG": 30.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 30.0,
+"family": "bread",
+"aliases": [
+"чёрный хлеб",
+"бородинский",
+"rye"
+]
+},
+{
+"id": "bread_whole",
+"ru": "Хлеб цельнозерновой",
+"en": "Whole grain bread",
+"kcal": 247.0,
+"p": 13.0,
+"f": 3.4,
+"c": 41.0,
+"fiber": 7.0,
+"pieceG": 30.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 30.0,
+"family": "bread",
+"aliases": [
+"цельнозерновой хлеб",
+"whole wheat bread"
+]
+},
+{
+"id": "toast",
+"ru": "Тост",
+"en": "Toast",
+"kcal": 265.0,
+"p": 8.0,
+"f": 3.5,
+"c": 49.0,
+"fiber": 2.5,
+"pieceG": 25.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 25.0,
+"family": "bread",
+"aliases": [
+"тосты",
+"тост",
+"toast"
+]
+},
+{
+"id": "lavash",
+"ru": "Лаваш",
+"en": "Lavash flatbread",
+"kcal": 275.0,
+"p": 9.1,
+"f": 1.2,
+"c": 56.5,
+"fiber": 2.5,
+"pieceG": 80.0,
+"pieceRu": "лист",
+"pieceEn": "sheet",
+"portionG": 80.0,
+"family": "bread",
+"aliases": [
+"лаваш",
+"тортилья",
+"tortilla",
+"wrap"
+]
+},
+{
+"id": "bun",
+"ru": "Булочка сдобная",
+"en": "Sweet bun",
+"kcal": 297.0,
+"p": 7.6,
+"f": 7.5,
+"c": 49.0,
+"fiber": 2.0,
+"pieceG": 70.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 70.0,
+"family": "bun",
+"aliases": [
+"булка",
+"булочка",
+"bun"
+]
+},
+{
+"id": "croissant",
+"ru": "Круассан",
+"en": "Croissant",
+"kcal": 406.0,
+"p": 8.2,
+"f": 21.0,
+"c": 46.0,
+"fiber": 2.4,
+"pieceG": 60.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 60.0,
+"family": "bun",
+"aliases": [
+"круассан",
+"croissant"
+]
+},
+{
+"id": "chicken_breast",
+"ru": "Куриная грудка",
+"en": "Chicken breast",
+"kcal": 150.0,
+"p": 30.0,
+"f": 3.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "chicken",
+"aliases": [
+"курица",
+"куриное филе",
+"филе курицы",
+"грудка",
+"chicken",
+"куриная грудка"
+]
+},
+{
+"id": "chicken_thigh",
+"ru": "Куриное бедро",
+"en": "Chicken thigh",
+"kcal": 190.0,
+"p": 22.0,
+"f": 11.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "chicken",
+"aliases": [
+"окорочок",
+"куриная ножка",
+"куриные бедра",
+"бедро",
+"chicken leg"
+]
+},
+{
+"id": "beef",
+"ru": "Говядина варёная",
+"en": "Beef, cooked",
+"kcal": 232.0,
+"p": 26.0,
+"f": 14.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "meat",
+"aliases": [
+"говядина",
+"мясо",
+"beef",
+"meat"
+]
+},
+{
+"id": "beef_mince",
+"ru": "Фарш говяжий",
+"en": "Ground beef",
+"kcal": 254.0,
+"p": 17.0,
+"f": 20.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "mince",
+"aliases": [
+"фарш",
+"мясной фарш",
+"ground beef",
+"mince"
+]
+},
+{
+"id": "pork",
+"ru": "Свинина",
+"en": "Pork",
+"kcal": 259.0,
+"p": 16.0,
+"f": 21.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "meat",
+"aliases": [
+"свинина",
+"pork"
+]
+},
+{
+"id": "turkey",
+"ru": "Индейка",
+"en": "Turkey",
+"kcal": 140.0,
+"p": 25.0,
+"f": 4.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "poultry",
+"aliases": [
+"индейка",
+"индюшка",
+"turkey"
+]
+},
+{
+"id": "sausage",
+"ru": "Колбаса варёная",
+"en": "Boiled sausage",
+"kcal": 257.0,
+"p": 12.0,
+"f": 23.0,
+"c": 1.5,
+"fiber": 0.0,
+"pieceG": 20.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 20.0,
+"family": "sausage",
+"aliases": [
+"колбаса",
+"докторская",
+"sausage"
+]
+},
+{
+"id": "sausages",
+"ru": "Сосиски",
+"en": "Frankfurters",
+"kcal": 266.0,
+"p": 11.0,
+"f": 24.0,
+"c": 1.6,
+"fiber": 0.0,
+"pieceG": 50.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 50.0,
+"family": "sausage",
+"aliases": [
+"сосиска",
+"сардельки",
+"hot dog",
+"sausages"
+]
+},
+{
+"id": "ham",
+"ru": "Ветчина",
+"en": "Ham",
+"kcal": 145.0,
+"p": 18.0,
+"f": 8.0,
+"c": 1.0,
+"fiber": 0.0,
+"pieceG": 25.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 25.0,
+"family": "ham",
+"aliases": [
+"ветчина",
+"ham"
+]
+},
+{
+"id": "bacon",
+"ru": "Бекон",
+"en": "Bacon",
+"kcal": 541.0,
+"p": 37.0,
+"f": 42.0,
+"c": 1.4,
+"fiber": 0.0,
+"pieceG": 15.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 15.0,
+"family": "bacon",
+"aliases": [
+"бекон",
+"bacon"
+]
+},
+{
+"id": "salmon",
+"ru": "Лосось",
+"en": "Salmon",
+"kcal": 208.0,
+"p": 20.0,
+"f": 13.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "fish",
+"aliases": [
+"лосось",
+"сёмга",
+"семга",
+"форель",
+"красная рыба",
+"salmon",
+"trout"
+]
+},
+{
+"id": "tuna_can",
+"ru": "Тунец консервированный",
+"en": "Canned tuna",
+"kcal": 116.0,
+"p": 26.0,
+"f": 1.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "tuna",
+"aliases": [
+"тунец",
+"тунца",
+"тунцом",
+"tuna"
+]
+},
+{
+"id": "cod",
+"ru": "Треска",
+"en": "Cod",
+"kcal": 82.0,
+"p": 18.0,
+"f": 0.7,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "whitefish",
+"aliases": [
+"треска",
+"минтай",
+"белая рыба",
+"хек",
+"рыба",
+"cod",
+"fish"
+]
+},
+{
+"id": "shrimp",
+"ru": "Креветки",
+"en": "Shrimp",
+"kcal": 99.0,
+"p": 24.0,
+"f": 0.3,
+"c": 0.2,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "shrimp",
+"aliases": [
+"креветки",
+"shrimp",
+"prawns"
+]
+},
+{
+"id": "herring",
+"ru": "Сельдь солёная",
+"en": "Salted herring",
+"kcal": 217.0,
+"p": 17.0,
+"f": 16.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "herring",
+"aliases": [
+"сельдь",
+"селёдка",
+"herring"
+]
+},
+{
+"id": "egg",
+"ru": "Яйцо куриное",
+"en": "Egg",
+"kcal": 157.0,
+"p": 12.7,
+"f": 11.5,
+"c": 0.7,
+"fiber": 0.0,
+"pieceG": 55.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 55.0,
+"family": "egg",
+"aliases": [
+"яйцо",
+"яйца",
+"яиц",
+"яичница",
+"варёное яйцо",
+"egg",
+"eggs"
+]
+},
+{
+"id": "egg_white",
+"ru": "Яичный белок",
+"en": "Egg white",
+"kcal": 52.0,
+"p": 11.0,
+"f": 0.2,
+"c": 0.7,
+"fiber": 0.0,
+"pieceG": 33.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 33.0,
+"family": "eggwhite",
+"aliases": [
+"белок яичный",
+"белки",
+"egg white"
+]
+},
+{
+"id": "milk",
+"ru": "Молоко 2.5%",
+"en": "Milk 2.5%",
+"kcal": 52.0,
+"p": 2.8,
+"f": 2.5,
+"c": 4.7,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "milk",
+"aliases": [
+"молоко",
+"milk"
+]
+},
+{
+"id": "kefir",
+"ru": "Кефир 1%",
+"en": "Kefir 1%",
+"kcal": 40.0,
+"p": 3.0,
+"f": 1.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "kefir",
+"aliases": [
+"кефир",
+"kefir"
+]
+},
+{
+"id": "yogurt",
+"ru": "Йогурт натуральный",
+"en": "Plain yogurt",
+"kcal": 66.0,
+"p": 5.0,
+"f": 3.2,
+"c": 3.5,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 125.0,
+"family": "yogurt",
+"aliases": [
+"йогурт",
+"yogurt"
+]
+},
+{
+"id": "yogurt_greek",
+"ru": "Греческий йогурт",
+"en": "Greek yogurt",
+"kcal": 97.0,
+"p": 9.0,
+"f": 5.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "yogurt",
+"aliases": [
+"греческий йогурт",
+"greek yogurt"
+]
+},
+{
+"id": "cottage_5",
+"ru": "Творог 5%",
+"en": "Cottage cheese 5%",
+"kcal": 121.0,
+"p": 17.0,
+"f": 5.0,
+"c": 1.8,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "cottage",
+"aliases": [
+"творог",
+"cottage cheese"
+]
+},
+{
+"id": "cottage_0",
+"ru": "Творог обезжиренный",
+"en": "Cottage cheese, fat-free",
+"kcal": 71.0,
+"p": 16.0,
+"f": 0.6,
+"c": 1.3,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "cottage",
+"aliases": [
+"творог 0",
+"обезжиренный творог"
+]
+},
+{
+"id": "sour_cream",
+"ru": "Сметана 20%",
+"en": "Sour cream 20%",
+"kcal": 206.0,
+"p": 2.8,
+"f": 20.0,
+"c": 3.2,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "sour_cream",
+"aliases": [
+"сметана",
+"sour cream"
+]
+},
+{
+"id": "cheese",
+"ru": "Сыр твёрдый",
+"en": "Hard cheese",
+"kcal": 356.0,
+"p": 24.0,
+"f": 28.0,
+"c": 0.5,
+"fiber": 0.0,
+"pieceG": 20.0,
+"pieceRu": "ломтик",
+"pieceEn": "slice",
+"portionG": 30.0,
+"family": "cheese",
+"aliases": [
+"сыр",
+"гауда",
+"чеддер",
+"российский",
+"cheese"
+]
+},
+{
+"id": "mozzarella",
+"ru": "Моцарелла",
+"en": "Mozzarella",
+"kcal": 280.0,
+"p": 22.0,
+"f": 22.0,
+"c": 2.2,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "cheese",
+"aliases": [
+"моцарелла",
+"mozzarella"
+]
+},
+{
+"id": "feta",
+"ru": "Брынза (фета)",
+"en": "Feta",
+"kcal": 264.0,
+"p": 14.0,
+"f": 21.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "cheese",
+"aliases": [
+"брынза",
+"фета",
+"feta"
+]
+},
+{
+"id": "cream_cheese",
+"ru": "Творожный сыр",
+"en": "Cream cheese",
+"kcal": 342.0,
+"p": 6.0,
+"f": 34.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "cream_cheese",
+"aliases": [
+"сливочный сыр",
+"филадельфия",
+"cream cheese"
+]
+},
+{
+"id": "butter",
+"ru": "Сливочное масло",
+"en": "Butter",
+"kcal": 717.0,
+"p": 0.5,
+"f": 81.1,
+"c": 0.8,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 10.0,
+"family": "butter",
+"aliases": [
+"масло",
+"масло сливочное",
+"butter"
+]
+},
+{
+"id": "cream",
+"ru": "Сливки 10%",
+"en": "Cream 10%",
+"kcal": 118.0,
+"p": 3.0,
+"f": 10.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "cream",
+"aliases": [
+"сливки",
+"cream"
+]
+},
+{
+"id": "tomato",
+"ru": "Помидор",
+"en": "Tomato",
+"kcal": 20.0,
+"p": 1.1,
+"f": 0.2,
+"c": 3.7,
+"fiber": 1.2,
+"pieceG": 100.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 100.0,
+"family": "tomato",
+"aliases": [
+"помидоры",
+"томат",
+"томаты",
+"tomato",
+"tomatoes"
+]
+},
+{
+"id": "cucumber",
+"ru": "Огурец",
+"en": "Cucumber",
+"kcal": 15.0,
+"p": 0.8,
+"f": 0.1,
+"c": 2.8,
+"fiber": 1.0,
+"pieceG": 100.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 100.0,
+"family": "cucumber",
+"aliases": [
+"огурцы",
+"cucumber"
+]
+},
+{
+"id": "bell_pepper",
+"ru": "Болгарский перец",
+"en": "Bell pepper",
+"kcal": 27.0,
+"p": 1.3,
+"f": 0.0,
+"c": 5.3,
+"fiber": 1.8,
+"pieceG": 120.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 120.0,
+"family": "pepper",
+"aliases": [
+"перец",
+"перца",
+"pepper",
+"paprika"
+]
+},
+{
+"id": "carrot",
+"ru": "Морковь",
+"en": "Carrot",
+"kcal": 35.0,
+"p": 1.3,
+"f": 0.1,
+"c": 6.9,
+"fiber": 2.4,
+"pieceG": 80.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 80.0,
+"family": "carrot",
+"aliases": [
+"морковка",
+"carrot"
+]
+},
+{
+"id": "onion",
+"ru": "Лук репчатый",
+"en": "Onion",
+"kcal": 41.0,
+"p": 1.4,
+"f": 0.0,
+"c": 8.2,
+"fiber": 1.7,
+"pieceG": 80.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 80.0,
+"family": "onion",
+"aliases": [
+"лук",
+"onion"
+]
+},
+{
+"id": "cabbage",
+"ru": "Капуста белокочанная",
+"en": "Cabbage",
+"kcal": 28.0,
+"p": 1.8,
+"f": 0.1,
+"c": 4.7,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "cabbage",
+"aliases": [
+"капуста",
+"cabbage"
+]
+},
+{
+"id": "broccoli",
+"ru": "Брокколи",
+"en": "Broccoli",
+"kcal": 34.0,
+"p": 2.8,
+"f": 0.4,
+"c": 6.6,
+"fiber": 2.6,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "broccoli",
+"aliases": [
+"брокколи",
+"broccoli"
+]
+},
+{
+"id": "cauliflower",
+"ru": "Цветная капуста",
+"en": "Cauliflower",
+"kcal": 30.0,
+"p": 2.5,
+"f": 0.3,
+"c": 5.0,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "cauliflower",
+"aliases": [
+"цветная капуста",
+"cauliflower"
+]
+},
+{
+"id": "zucchini",
+"ru": "Кабачок",
+"en": "Zucchini",
+"kcal": 24.0,
+"p": 0.6,
+"f": 0.3,
+"c": 4.6,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "zucchini",
+"aliases": [
+"кабачки",
+"цуккини",
+"zucchini",
+"courgette"
+]
+},
+{
+"id": "eggplant",
+"ru": "Баклажан",
+"en": "Eggplant",
+"kcal": 24.0,
+"p": 1.2,
+"f": 0.1,
+"c": 4.5,
+"fiber": 3.0,
+"pieceG": 200.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 200.0,
+"family": "eggplant",
+"aliases": [
+"баклажаны",
+"eggplant",
+"aubergine"
+]
+},
+{
+"id": "beet",
+"ru": "Свёкла",
+"en": "Beetroot",
+"kcal": 43.0,
+"p": 1.6,
+"f": 0.2,
+"c": 9.6,
+"fiber": 2.8,
+"pieceG": 100.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 100.0,
+"family": "beet",
+"aliases": [
+"свекла",
+"свёкла",
+"beet",
+"beetroot"
+]
+},
+{
+"id": "spinach",
+"ru": "Шпинат",
+"en": "Spinach",
+"kcal": 23.0,
+"p": 2.9,
+"f": 0.4,
+"c": 3.6,
+"fiber": 2.2,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "spinach",
+"aliases": [
+"шпинат",
+"spinach"
+]
+},
+{
+"id": "lettuce",
+"ru": "Салатные листья",
+"en": "Lettuce",
+"kcal": 15.0,
+"p": 1.4,
+"f": 0.2,
+"c": 2.9,
+"fiber": 1.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "lettuce",
+"aliases": [
+"салат",
+"салат листовой",
+"латук",
+"lettuce",
+"salad leaves"
+]
+},
+{
+"id": "mushrooms",
+"ru": "Шампиньоны",
+"en": "Mushrooms",
+"kcal": 27.0,
+"p": 4.3,
+"f": 1.0,
+"c": 0.1,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "mushrooms",
+"aliases": [
+"грибы",
+"шампиньоны",
+"mushrooms"
+]
+},
+{
+"id": "garlic",
+"ru": "Чеснок",
+"en": "Garlic",
+"kcal": 143.0,
+"p": 6.5,
+"f": 0.5,
+"c": 29.9,
+"fiber": 2.1,
+"pieceG": 4.0,
+"pieceRu": "зубчик",
+"pieceEn": "clove",
+"portionG": 5.0,
+"family": "garlic",
+"aliases": [
+"чеснок",
+"garlic"
+]
+},
+{
+"id": "corn_can",
+"ru": "Кукуруза консервированная",
+"en": "Canned corn",
+"kcal": 58.0,
+"p": 2.2,
+"f": 0.4,
+"c": 11.0,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "corn_can",
+"aliases": [
+"кукуруза",
+"corn"
+]
+},
+{
+"id": "peas",
+"ru": "Зелёный горошек",
+"en": "Green peas",
+"kcal": 72.0,
+"p": 5.0,
+"f": 0.2,
+"c": 13.0,
+"fiber": 5.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "peas",
+"aliases": [
+"горошек",
+"горох",
+"peas"
+]
+},
+{
+"id": "beans_can",
+"ru": "Фасоль консервированная",
+"en": "Canned beans",
+"kcal": 90.0,
+"p": 6.0,
+"f": 0.5,
+"c": 15.0,
+"fiber": 5.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "beans_can",
+"aliases": [
+"фасоль",
+"beans"
+]
+},
+{
+"id": "chickpeas",
+"ru": "Нут варёный",
+"en": "Chickpeas, cooked",
+"kcal": 164.0,
+"p": 8.9,
+"f": 2.6,
+"c": 27.0,
+"fiber": 7.6,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "chickpeas",
+"aliases": [
+"нут",
+"chickpeas"
+]
+},
+{
+"id": "lentils",
+"ru": "Чечевица варёная",
+"en": "Lentils, cooked",
+"kcal": 116.0,
+"p": 9.0,
+"f": 0.4,
+"c": 20.0,
+"fiber": 7.9,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "lentils",
+"aliases": [
+"чечевица",
+"lentils"
+]
+},
+{
+"id": "pumpkin",
+"ru": "Тыква",
+"en": "Pumpkin",
+"kcal": 28.0,
+"p": 1.3,
+"f": 0.3,
+"c": 7.7,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "pumpkin",
+"aliases": [
+"тыква",
+"pumpkin"
+]
+},
+{
+"id": "avocado",
+"ru": "Авокадо",
+"en": "Avocado",
+"kcal": 160.0,
+"p": 2.0,
+"f": 14.7,
+"c": 8.5,
+"fiber": 6.7,
+"pieceG": 150.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 150.0,
+"family": "avocado",
+"aliases": [
+"авокадо",
+"avocado"
+]
+},
+{
+"id": "olives",
+"ru": "Оливки",
+"en": "Olives",
+"kcal": 115.0,
+"p": 0.8,
+"f": 10.7,
+"c": 6.3,
+"fiber": 3.0,
+"pieceG": 4.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 30.0,
+"family": "olives",
+"aliases": [
+"оливки",
+"маслины",
+"olives"
+]
+},
+{
+"id": "apple",
+"ru": "Яблоко",
+"en": "Apple",
+"kcal": 52.0,
+"p": 0.3,
+"f": 0.2,
+"c": 13.8,
+"fiber": 2.4,
+"pieceG": 180.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 180.0,
+"family": "apple",
+"aliases": [
+"яблоки",
+"apple"
+]
+},
+{
+"id": "banana",
+"ru": "Банан",
+"en": "Banana",
+"kcal": 89.0,
+"p": 1.1,
+"f": 0.3,
+"c": 22.8,
+"fiber": 2.6,
+"pieceG": 120.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 120.0,
+"family": "banana",
+"aliases": [
+"бананы",
+"banana"
+]
+},
+{
+"id": "orange",
+"ru": "Апельсин",
+"en": "Orange",
+"kcal": 47.0,
+"p": 0.9,
+"f": 0.1,
+"c": 11.8,
+"fiber": 2.4,
+"pieceG": 150.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 150.0,
+"family": "orange",
+"aliases": [
+"апельсины",
+"orange"
+]
+},
+{
+"id": "mandarin",
+"ru": "Мандарин",
+"en": "Mandarin",
+"kcal": 53.0,
+"p": 0.8,
+"f": 0.3,
+"c": 13.0,
+"fiber": 1.8,
+"pieceG": 80.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 80.0,
+"family": "orange",
+"aliases": [
+"мандарины",
+"mandarin",
+"tangerine"
+]
+},
+{
+"id": "pear",
+"ru": "Груша",
+"en": "Pear",
+"kcal": 57.0,
+"p": 0.4,
+"f": 0.1,
+"c": 15.0,
+"fiber": 3.1,
+"pieceG": 170.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 170.0,
+"family": "pear",
+"aliases": [
+"груши",
+"pear"
+]
+},
+{
+"id": "grapes",
+"ru": "Виноград",
+"en": "Grapes",
+"kcal": 69.0,
+"p": 0.7,
+"f": 0.2,
+"c": 18.0,
+"fiber": 0.9,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "grapes",
+"aliases": [
+"виноград",
+"grapes"
+]
+},
+{
+"id": "strawberry",
+"ru": "Клубника",
+"en": "Strawberry",
+"kcal": 32.0,
+"p": 0.7,
+"f": 0.3,
+"c": 7.7,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "berries",
+"aliases": [
+"клубника",
+"земляника",
+"strawberry",
+"strawberries"
+]
+},
+{
+"id": "blueberry",
+"ru": "Черника",
+"en": "Blueberries",
+"kcal": 57.0,
+"p": 0.7,
+"f": 0.3,
+"c": 14.5,
+"fiber": 2.4,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "berries",
+"aliases": [
+"черника",
+"голубика",
+"ягоды",
+"blueberry",
+"berries"
+]
+},
+{
+"id": "watermelon",
+"ru": "Арбуз",
+"en": "Watermelon",
+"kcal": 30.0,
+"p": 0.6,
+"f": 0.2,
+"c": 7.6,
+"fiber": 0.4,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "watermelon",
+"aliases": [
+"арбуз",
+"watermelon"
+]
+},
+{
+"id": "kiwi",
+"ru": "Киви",
+"en": "Kiwi",
+"kcal": 61.0,
+"p": 1.1,
+"f": 0.5,
+"c": 14.7,
+"fiber": 3.0,
+"pieceG": 75.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 75.0,
+"family": "kiwi",
+"aliases": [
+"киви",
+"kiwi"
+]
+},
+{
+"id": "peach",
+"ru": "Персик",
+"en": "Peach",
+"kcal": 39.0,
+"p": 0.9,
+"f": 0.3,
+"c": 9.5,
+"fiber": 1.5,
+"pieceG": 150.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 150.0,
+"family": "peach",
+"aliases": [
+"персики",
+"peach"
+]
+},
+{
+"id": "lemon",
+"ru": "Лимон",
+"en": "Lemon",
+"kcal": 29.0,
+"p": 1.1,
+"f": 0.3,
+"c": 9.0,
+"fiber": 2.8,
+"pieceG": 60.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 20.0,
+"family": "lemon",
+"aliases": [
+"лимон",
+"lemon"
+]
+},
+{
+"id": "dried_apricots",
+"ru": "Курага",
+"en": "Dried apricots",
+"kcal": 241.0,
+"p": 3.4,
+"f": 0.5,
+"c": 63.0,
+"fiber": 7.3,
+"pieceG": 8.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 30.0,
+"family": "dried_apricots",
+"aliases": [
+"курага",
+"dried apricots"
+]
+},
+{
+"id": "raisins",
+"ru": "Изюм",
+"en": "Raisins",
+"kcal": 299.0,
+"p": 3.1,
+"f": 0.5,
+"c": 79.0,
+"fiber": 3.7,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "raisins",
+"aliases": [
+"изюм",
+"raisins"
+]
+},
+{
+"id": "dates",
+"ru": "Финики",
+"en": "Dates",
+"kcal": 282.0,
+"p": 2.5,
+"f": 0.4,
+"c": 75.0,
+"fiber": 8.0,
+"pieceG": 8.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 8.0,
+"family": "dates",
+"aliases": [
+"финики",
+"dates"
+]
+},
+{
+"id": "prunes",
+"ru": "Чернослив",
+"en": "Prunes",
+"kcal": 240.0,
+"p": 2.2,
+"f": 0.4,
+"c": 64.0,
+"fiber": 7.0,
+"pieceG": 10.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 10.0,
+"family": "prunes",
+"aliases": [
+"чернослив",
+"prunes"
+]
+},
+{
+"id": "almonds",
+"ru": "Миндаль",
+"en": "Almonds",
+"kcal": 579.0,
+"p": 21.0,
+"f": 50.0,
+"c": 22.0,
+"fiber": 12.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "nuts",
+"aliases": [
+"миндаль",
+"almonds"
+]
+},
+{
+"id": "walnuts",
+"ru": "Грецкие орехи",
+"en": "Walnuts",
+"kcal": 654.0,
+"p": 15.0,
+"f": 65.0,
+"c": 14.0,
+"fiber": 6.7,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "nuts",
+"aliases": [
+"орехи",
+"грецкий орех",
+"walnuts",
+"nuts"
+]
+},
+{
+"id": "peanuts",
+"ru": "Арахис",
+"en": "Peanuts",
+"kcal": 567.0,
+"p": 26.0,
+"f": 49.0,
+"c": 16.0,
+"fiber": 8.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "nuts",
+"aliases": [
+"арахис",
+"peanuts"
+]
+},
+{
+"id": "cashew",
+"ru": "Кешью",
+"en": "Cashews",
+"kcal": 553.0,
+"p": 18.0,
+"f": 44.0,
+"c": 30.0,
+"fiber": 3.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "nuts",
+"aliases": [
+"кешью",
+"cashew"
+]
+},
+{
+"id": "peanut_butter",
+"ru": "Арахисовая паста",
+"en": "Peanut butter",
+"kcal": 588.0,
+"p": 25.0,
+"f": 50.0,
+"c": 20.0,
+"fiber": 6.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 20.0,
+"family": "peanut_butter",
+"aliases": [
+"арахисовая паста",
+"peanut butter"
+]
+},
+{
+"id": "sunflower_seeds",
+"ru": "Семечки подсолнечные",
+"en": "Sunflower seeds",
+"kcal": 584.0,
+"p": 21.0,
+"f": 51.0,
+"c": 20.0,
+"fiber": 8.6,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "sunflower_seeds",
+"aliases": [
+"семечки",
+"sunflower seeds"
+]
+},
+{
+"id": "chia",
+"ru": "Семена чиа",
+"en": "Chia seeds",
+"kcal": 486.0,
+"p": 17.0,
+"f": 31.0,
+"c": 42.0,
+"fiber": 34.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 15.0,
+"family": "chia",
+"aliases": [
+"чиа",
+"chia"
+]
+},
+{
+"id": "sunflower_oil",
+"ru": "Подсолнечное масло",
+"en": "Sunflower oil",
+"kcal": 899.0,
+"p": 0.0,
+"f": 99.9,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 10.0,
+"family": "oil",
+"aliases": [
+"масло подсолнечное",
+"растительное масло",
+"масло растительное",
+"oil",
+"sunflower oil"
+]
+},
+{
+"id": "olive_oil",
+"ru": "Оливковое масло",
+"en": "Olive oil",
+"kcal": 884.0,
+"p": 0.0,
+"f": 100.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 10.0,
+"family": "oil",
+"aliases": [
+"масло оливковое",
+"olive oil"
+]
+},
+{
+"id": "sugar",
+"ru": "Сахар",
+"en": "Sugar",
+"kcal": 399.0,
+"p": 0.0,
+"f": 0.0,
+"c": 99.8,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 10.0,
+"family": "sugar",
+"aliases": [
+"сахар",
+"sugar"
+]
+},
+{
+"id": "honey",
+"ru": "Мёд",
+"en": "Honey",
+"kcal": 304.0,
+"p": 0.3,
+"f": 0.0,
+"c": 82.4,
+"fiber": 0.2,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 20.0,
+"family": "honey",
+"aliases": [
+"мед",
+"мёд",
+"honey"
+]
+},
+{
+"id": "chocolate_dark",
+"ru": "Тёмный шоколад",
+"en": "Dark chocolate",
+"kcal": 546.0,
+"p": 5.0,
+"f": 31.0,
+"c": 61.0,
+"fiber": 7.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 25.0,
+"family": "chocolate",
+"aliases": [
+"шоколад",
+"горький шоколад",
+"dark chocolate",
+"chocolate"
+]
+},
+{
+"id": "chocolate_milk",
+"ru": "Молочный шоколад",
+"en": "Milk chocolate",
+"kcal": 535.0,
+"p": 7.7,
+"f": 30.0,
+"c": 59.0,
+"fiber": 2.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 25.0,
+"family": "chocolate",
+"aliases": [
+"молочный шоколад",
+"milk chocolate"
+]
+},
+{
+"id": "cookies",
+"ru": "Печенье",
+"en": "Cookies",
+"kcal": 417.0,
+"p": 7.0,
+"f": 15.0,
+"c": 67.0,
+"fiber": 2.0,
+"pieceG": 12.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 36.0,
+"family": "cookies",
+"aliases": [
+"печенье",
+"cookies",
+"biscuits"
+]
+},
+{
+"id": "ice_cream",
+"ru": "Мороженое пломбир",
+"en": "Ice cream",
+"kcal": 207.0,
+"p": 3.5,
+"f": 11.0,
+"c": 24.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 80.0,
+"family": "ice_cream",
+"aliases": [
+"мороженое",
+"пломбир",
+"ice cream"
+]
+},
+{
+"id": "cake",
+"ru": "Торт",
+"en": "Cake",
+"kcal": 350.0,
+"p": 4.5,
+"f": 17.0,
+"c": 46.0,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "cake",
+"aliases": [
+"торт",
+"пирожное",
+"cake"
+]
+},
+{
+"id": "jam",
+"ru": "Варенье",
+"en": "Jam",
+"kcal": 263.0,
+"p": 0.3,
+"f": 0.0,
+"c": 68.0,
+"fiber": 0.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 20.0,
+"family": "jam",
+"aliases": [
+"варенье",
+"джем",
+"jam"
+]
+},
+{
+"id": "muesli",
+"ru": "Мюсли",
+"en": "Muesli",
+"kcal": 360.0,
+"p": 9.0,
+"f": 6.0,
+"c": 66.0,
+"fiber": 7.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "muesli",
+"aliases": [
+"мюсли",
+"muesli"
+]
+},
+{
+"id": "cornflakes",
+"ru": "Кукурузные хлопья",
+"en": "Corn flakes",
+"kcal": 357.0,
+"p": 7.5,
+"f": 0.4,
+"c": 84.0,
+"fiber": 3.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 40.0,
+"family": "cornflakes",
+"aliases": [
+"хлопья кукурузные",
+"cornflakes",
+"corn flakes"
+]
+},
+{
+"id": "protein_bar",
+"ru": "Протеиновый батончик",
+"en": "Protein bar",
+"kcal": 380.0,
+"p": 30.0,
+"f": 12.0,
+"c": 35.0,
+"fiber": 5.0,
+"pieceG": 60.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 60.0,
+"family": "protein_bar",
+"aliases": [
+"батончик",
+"протеиновый батончик",
+"protein bar",
+"bar"
+]
+},
+{
+"id": "protein_powder",
+"ru": "Протеин (порошок)",
+"en": "Protein powder",
+"kcal": 380.0,
+"p": 78.0,
+"f": 6.0,
+"c": 8.0,
+"fiber": 0.0,
+"pieceG": 30.0,
+"pieceRu": "мерная ложка",
+"pieceEn": "scoop",
+"portionG": 30.0,
+"family": "protein",
+"aliases": [
+"протеин",
+"сывороточный протеин",
+"protein",
+"whey"
+]
+},
+{
+"id": "flour",
+"ru": "Мука пшеничная",
+"en": "Wheat flour",
+"kcal": 334.0,
+"p": 10.3,
+"f": 1.0,
+"c": 68.0,
+"fiber": 3.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 30.0,
+"family": "flour",
+"aliases": [
+"мука",
+"flour"
+]
+},
+{
+"id": "cola",
+"ru": "Кола",
+"en": "Cola",
+"kcal": 42.0,
+"p": 0.0,
+"f": 0.0,
+"c": 10.6,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 330.0,
+"family": "cola",
+"aliases": [
+"кола",
+"coca cola",
+"пепси",
+"cola"
+]
+},
+{
+"id": "juice_orange",
+"ru": "Апельсиновый сок",
+"en": "Orange juice",
+"kcal": 45.0,
+"p": 0.7,
+"f": 0.2,
+"c": 10.4,
+"fiber": 0.2,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "juice_orange",
+"aliases": [
+"сок",
+"апельсиновый сок",
+"juice",
+"orange juice"
+]
+},
+{
+"id": "coffee",
+"ru": "Кофе чёрный",
+"en": "Black coffee",
+"kcal": 2.0,
+"p": 0.1,
+"f": 0.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "coffee",
+"aliases": [
+"кофе",
+"американо",
+"эспрессо",
+"coffee",
+"americano",
+"espresso"
+]
+},
+{
+"id": "cappuccino",
+"ru": "Капучино",
+"en": "Cappuccino",
+"kcal": 40.0,
+"p": 2.0,
+"f": 2.0,
+"c": 3.5,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "cappuccino",
+"aliases": [
+"капучино",
+"cappuccino"
+]
+},
+{
+"id": "latte",
+"ru": "Латте",
+"en": "Latte",
+"kcal": 45.0,
+"p": 2.5,
+"f": 2.0,
+"c": 4.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 300.0,
+"family": "latte",
+"aliases": [
+"латте",
+"latte"
+]
+},
+{
+"id": "water",
+"ru": "Вода",
+"en": "Water",
+"kcal": 0.0,
+"p": 0.0,
+"f": 0.0,
+"c": 0.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "water",
+"aliases": [
+"вода",
+"воды",
+"минералка",
+"water"
+]
+},
+{
+"id": "tea",
+"ru": "Чай без сахара",
+"en": "Tea, unsweetened",
+"kcal": 1.0,
+"p": 0.0,
+"f": 0.0,
+"c": 0.2,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "tea",
+"aliases": [
+"чай",
+"tea"
+]
+},
+{
+"id": "beer",
+"ru": "Пиво",
+"en": "Beer",
+"kcal": 43.0,
+"p": 0.5,
+"f": 0.0,
+"c": 3.6,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 500.0,
+"family": "beer",
+"aliases": [
+"пиво",
+"beer"
+]
+},
+{
+"id": "wine",
+"ru": "Вино красное",
+"en": "Red wine",
+"kcal": 85.0,
+"p": 0.1,
+"f": 0.0,
+"c": 2.6,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "wine",
+"aliases": [
+"вино",
+"wine",
+"red wine"
+]
+},
+{
+"id": "vodka",
+"ru": "Водка",
+"en": "Vodka",
+"kcal": 235.0,
+"p": 0.0,
+"f": 0.0,
+"c": 0.1,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "vodka",
+"aliases": [
+"водка",
+"vodka"
+]
+},
+{
+"id": "energy_drink",
+"ru": "Энергетик",
+"en": "Energy drink",
+"kcal": 45.0,
+"p": 0.0,
+"f": 0.0,
+"c": 11.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "energy_drink",
+"aliases": [
+"энергетик",
+"energy drink"
+]
+},
+{
+"id": "borscht",
+"ru": "Борщ",
+"en": "Borscht",
+"kcal": 49.0,
+"p": 1.1,
+"f": 2.5,
+"c": 5.4,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 300.0,
+"family": "borscht",
+"aliases": [
+"борщ",
+"borscht"
+]
+},
+{
+"id": "chicken_soup",
+"ru": "Куриный суп",
+"en": "Chicken soup",
+"kcal": 36.0,
+"p": 3.0,
+"f": 1.5,
+"c": 3.0,
+"fiber": 0.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 300.0,
+"family": "chicken_soup",
+"aliases": [
+"суп",
+"куриный суп",
+"суп куриный",
+"soup",
+"chicken soup"
+]
+},
+{
+"id": "pelmeni",
+"ru": "Пельмени",
+"en": "Dumplings (pelmeni)",
+"kcal": 275.0,
+"p": 11.9,
+"f": 12.4,
+"c": 29.0,
+"fiber": 1.5,
+"pieceG": 15.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 15.0,
+"family": "pelmeni",
+"aliases": [
+"пельмени",
+"вареники",
+"pelmeni",
+"dumplings"
+]
+},
+{
+"id": "syrniki",
+"ru": "Сырники",
+"en": "Syrniki (cheese pancakes)",
+"kcal": 220.0,
+"p": 16.0,
+"f": 11.0,
+"c": 14.0,
+"fiber": 0.5,
+"pieceG": 50.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 50.0,
+"family": "syrniki",
+"aliases": [
+"сырники",
+"syrniki"
+]
+},
+{
+"id": "pancakes",
+"ru": "Блины",
+"en": "Pancakes (blini)",
+"kcal": 233.0,
+"p": 6.1,
+"f": 12.3,
+"c": 26.0,
+"fiber": 1.0,
+"pieceG": 50.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 50.0,
+"family": "pancakes",
+"aliases": [
+"блины",
+"блинчики",
+"оладьи",
+"pancakes",
+"crepes"
+]
+},
+{
+"id": "omelet",
+"ru": "Омлет",
+"en": "Omelette",
+"kcal": 154.0,
+"p": 9.6,
+"f": 12.0,
+"c": 2.0,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "omelet",
+"aliases": [
+"омлет",
+"omelet",
+"omelette"
+]
+},
+{
+"id": "pizza",
+"ru": "Пицца",
+"en": "Pizza",
+"kcal": 266.0,
+"p": 11.0,
+"f": 10.0,
+"c": 33.0,
+"fiber": 2.0,
+"pieceG": 110.0,
+"pieceRu": "кусок",
+"pieceEn": "slice",
+"portionG": 110.0,
+"family": "pizza",
+"aliases": [
+"пицца",
+"pizza"
+]
+},
+{
+"id": "burger",
+"ru": "Бургер",
+"en": "Burger",
+"kcal": 295.0,
+"p": 17.0,
+"f": 14.0,
+"c": 24.0,
+"fiber": 1.5,
+"pieceG": 200.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 200.0,
+"family": "burger",
+"aliases": [
+"гамбургер",
+"чизбургер",
+"бургер",
+"burger",
+"cheeseburger"
+]
+},
+{
+"id": "shawarma",
+"ru": "Шаурма",
+"en": "Shawarma",
+"kcal": 215.0,
+"p": 12.0,
+"f": 10.0,
+"c": 20.0,
+"fiber": 1.5,
+"pieceG": 300.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 300.0,
+"family": "shawarma",
+"aliases": [
+"шаурма",
+"шаверма",
+"донер",
+"shawarma",
+"doner"
+]
+},
+{
+"id": "sushi",
+"ru": "Суши/роллы",
+"en": "Sushi rolls",
+"kcal": 150.0,
+"p": 5.0,
+"f": 1.0,
+"c": 30.0,
+"fiber": 0.5,
+"pieceG": 30.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 180.0,
+"family": "sushi",
+"aliases": [
+"суши",
+"роллы",
+"ролл",
+"sushi",
+"rolls"
+]
+},
+{
+"id": "olivier",
+"ru": "Салат Оливье",
+"en": "Olivier salad",
+"kcal": 198.0,
+"p": 3.8,
+"f": 16.0,
+"c": 8.5,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 150.0,
+"family": "olivier",
+"aliases": [
+"оливье",
+"olivier"
+]
+},
+{
+"id": "caesar",
+"ru": "Салат Цезарь с курицей",
+"en": "Chicken Caesar salad",
+"kcal": 180.0,
+"p": 10.0,
+"f": 12.0,
+"c": 8.0,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "caesar",
+"aliases": [
+"цезарь",
+"салат цезарь",
+"caesar"
+]
+},
+{
+"id": "greek_salad",
+"ru": "Греческий салат",
+"en": "Greek salad",
+"kcal": 110.0,
+"p": 3.0,
+"f": 9.0,
+"c": 4.0,
+"fiber": 1.5,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 200.0,
+"family": "greek_salad",
+"aliases": [
+"греческий салат",
+"greek salad"
+]
+},
+{
+"id": "plov",
+"ru": "Плов",
+"en": "Plov (pilaf)",
+"kcal": 190.0,
+"p": 6.0,
+"f": 9.0,
+"c": 22.0,
+"fiber": 1.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 250.0,
+"family": "plov",
+"aliases": [
+"плов",
+"pilaf",
+"plov"
+]
+},
+{
+"id": "cutlet",
+"ru": "Котлета мясная",
+"en": "Meat cutlet",
+"kcal": 230.0,
+"p": 14.0,
+"f": 15.0,
+"c": 10.0,
+"fiber": 0.5,
+"pieceG": 80.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 80.0,
+"family": "cutlet",
+"aliases": [
+"котлета",
+"котлеты",
+"cutlet"
+]
+},
+{
+"id": "hummus",
+"ru": "Хумус",
+"en": "Hummus",
+"kcal": 166.0,
+"p": 8.0,
+"f": 10.0,
+"c": 14.0,
+"fiber": 6.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 50.0,
+"family": "hummus",
+"aliases": [
+"хумус",
+"hummus"
+]
+},
+{
+"id": "tofu",
+"ru": "Тофу",
+"en": "Tofu",
+"kcal": 76.0,
+"p": 8.0,
+"f": 4.8,
+"c": 1.9,
+"fiber": 0.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 100.0,
+"family": "tofu",
+"aliases": [
+"тофу",
+"tofu"
+]
+},
+{
+"id": "ketchup",
+"ru": "Кетчуп",
+"en": "Ketchup",
+"kcal": 93.0,
+"p": 1.8,
+"f": 0.1,
+"c": 22.0,
+"fiber": 0.3,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 15.0,
+"family": "sauce",
+"aliases": [
+"кетчуп",
+"ketchup"
+]
+},
+{
+"id": "mayonnaise",
+"ru": "Майонез",
+"en": "Mayonnaise",
+"kcal": 627.0,
+"p": 2.4,
+"f": 67.0,
+"c": 3.9,
+"fiber": 0.0,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 15.0,
+"family": "sauce",
+"aliases": [
+"майонез",
+"mayonnaise"
+]
+},
+{
+"id": "soy_sauce",
+"ru": "Соевый соус",
+"en": "Soy sauce",
+"kcal": 53.0,
+"p": 8.0,
+"f": 0.0,
+"c": 5.0,
+"fiber": 0.8,
+"pieceG": null,
+"pieceRu": null,
+"pieceEn": null,
+"portionG": 15.0,
+"family": "sauce",
+"aliases": [
+"соевый соус",
+"soy sauce"
+]
+},
+{
+"id": "pickles",
+"ru": "Солёные огурцы",
+"en": "Pickles",
+"kcal": 11.0,
+"p": 0.8,
+"f": 0.1,
+"c": 1.7,
+"fiber": 1.0,
+"pieceG": 50.0,
+"pieceRu": "шт",
+"pieceEn": "pc",
+"portionG": 50.0,
+"family": "pickles",
+"aliases": [
+"соленые огурцы",
+"соленые огурчики",
+"маринованные огурцы",
+"pickles"
+]
+}
+]

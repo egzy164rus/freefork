@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "",
+  "outputDirectory": "src/FreeFork/wwwroot",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://ЗАМЕНИТЕ-НА-ВАШ-АДРЕС.onrender.com/api/:path*" }
+  ]
+}
