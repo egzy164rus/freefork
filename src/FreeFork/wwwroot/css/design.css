@@ -66,3 +66,25 @@ html .tab.on{color:#04140d;background:linear-gradient(135deg,#a3f55b,#22d3b4)}
 
 html .toast{background:rgba(22,32,44,.92);color:var(--text);border:1px solid rgba(67,230,161,.35);backdrop-filter:blur(14px);box-shadow:0 10px 30px -8px rgba(0,0,0,.7),0 0 18px -6px rgba(67,230,161,.5)}
 html .overlay{background:rgba(2,5,8,.62);backdrop-filter:blur(3px)}
+
+/* ───────── PWA ───────── */
+html{overscroll-behavior-y:contain;-webkit-text-size-adjust:100%}
+button,.chip,.tab,.btn{touch-action:manipulation}
+.topbar{padding-top:calc(10px + env(safe-area-inset-top));padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right))}
+.app{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.pwa-bar{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(84px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:10px;
+  max-width:min(92vw,520px);padding:9px 10px 9px 16px;border-radius:99px;font-size:.9rem;font-weight:600;color:var(--text);
+  background:rgba(22,32,44,.94);border:1px solid rgba(67,230,161,.35);backdrop-filter:blur(14px);box-shadow:0 10px 30px -8px rgba(0,0,0,.7);animation:up .25s}
+.pwa-bar.offline{border-color:rgba(255,194,71,.45);padding-right:16px}.pwa-bar.offline .ic{color:var(--accent-2)}.pwa-bar.update .ic{color:var(--accent)}
+.pwa-bar .btn{padding:7px 14px;font-size:.88rem}
+.ios-steps{list-style:none;margin:6px 0 14px;padding:0;display:flex;flex-direction:column;gap:10px}
+.ios-step{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.ios-step span:nth-child(2){flex:1}.ios-step .ic{color:var(--accent)}
+.ios-n{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.85rem;flex:none}
+@media (display-mode:standalone){.topbar{background:rgba(8,12,17,.8)}}
+
+/* узкие экраны: сводка на всю ширину; плашки не сжимаются */
+.macros,.sum-side,.soft-note{width:100%;justify-self:stretch}
+html .toast{left:0;right:0;margin:0 auto;width:max-content;transform:none}
+html .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+body:has(.pwa-bar) .toast{bottom:calc(150px + env(safe-area-inset-bottom))}

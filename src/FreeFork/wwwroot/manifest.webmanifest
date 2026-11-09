@@ -1,13 +1,36 @@
 {
+  "id": "./",
   "name": "FreeFork — бесплатный счётчик калорий",
   "short_name": "FreeFork",
-  "description": "Бесплатный счётчик калорий без рекламы",
-  "start_url": "./",
+  "description": "Бесплатный счётчик калорий без рекламы: гибкая неделя, рецепты из холодильника, умные инсайты. Работает офлайн.",
+  "lang": "ru",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
   "background_color": "#080c11",
   "theme_color": "#080c11",
+  "categories": ["health", "fitness", "food", "lifestyle"],
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Добавить еду", "short_name": "Добавить", "description": "Быстрый ввод текстом", "url": "./?action=add",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Холодильник", "short_name": "Холодильник", "description": "Рецепты из того, что есть", "url": "./?view=fridge",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Инсайты", "short_name": "Инсайты", "url": "./?view=insights",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ],
+  "screenshots": [
+    { "src": "screenshots/today.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Дневник: кольцо калорий и БЖУ" },
+    { "src": "screenshots/fridge.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Рецепты из холодильника" },
+    { "src": "screenshots/insights.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Умные инсайты" },
+    { "src": "screenshots/wide.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide", "label": "FreeFork на компьютере" }
   ]
 }

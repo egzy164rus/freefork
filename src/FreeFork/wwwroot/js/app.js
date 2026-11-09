@@ -324,6 +324,14 @@ function viewToday() {
         h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => { S.hideCloudBanner = true; save(false); render(); } }, ic('x', 16)))));
   }
 
+  if (S.configured && !(Cloud.enabled && !Cloud.user && !S.hideCloudBanner) && canInstall() && !S.hideInstall) {
+    nodes.push(h('div', { class: 'card banner install-banner' },
+      h('div', null, h('b', { class: 'ttl' }, ic('phone', 18), t('pwa.bannerTitle')), h('p', null, t('pwa.bannerText'))),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn', onclick: installApp }, t('pwa.install')),
+        h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => { S.hideInstall = true; save(false); render(); } }, ic('x', 16)))));
+  }
+
   nodes.push(h('div', { class: 'datebar' },
     h('button', { class: 'icon-btn', 'aria-label': 'prev', onclick: () => { cur = ymd(addDays(dt, -1)); render(); } }, '‹'),
     h('button', { class: 'date-label', onclick: () => { if (!isToday) { cur = today(); render(); } } },
@@ -828,6 +836,7 @@ function viewSettings() {
 
   const acc = accountCard();
   if (acc) nodes.push(acc);
+  nodes.push(installCard());
 
   nodes.push(h('section', { class: 'card' },
     h('div', { class: 'card-title' }, ttl('user', t('set.profile'))),
@@ -1109,8 +1118,85 @@ function importJson(e) {
   rd.readAsText(file);
 }
 
+/* ───────────── PWA: установка, обновления, офлайн ───────────── */
+const pwa = { prompt: null, updating: false, bar: null };
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: minimal-ui)').matches || navigator.standalone === true;
+const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const canInstall = () => !isStandalone() && (!!pwa.prompt || isIos());
+
+async function installApp() {
+  if (pwa.prompt) {
+    const ev = pwa.prompt; pwa.prompt = null;
+    try { await ev.prompt(); const r = await ev.userChoice; if (r.outcome === 'accepted') toast(t('pwa.installed')); } catch { /* закрыли окно */ }
+    render();
+  } else if (isIos()) openIosHelp();
+  else toast(t('pwa.generic'));
+}
+function openIosHelp() {
+  modal(t('pwa.iosTitle'), api => {
+    const step = (icon, text, n) => h('li', { class: 'ios-step' }, h('span', { class: 'ios-n' }, n), h('span', null, text), ic(icon, 22));
+    api.body.append(h('ol', { class: 'ios-steps' }, step('globe', t('pwa.ios1'), 1), step('share', t('pwa.ios2'), 2), step('addsq', t('pwa.ios3'), 3)),
+      h('button', { class: 'btn wide', onclick: () => api.close() }, t('close')));
+  });
+}
+function installCard() {
+  const card = h('section', { class: 'card' }, h('div', { class: 'card-title' }, ttl('phone', t('pwa.title'))));
+  if (isStandalone()) card.append(h('p', { class: 'muted' }, t('pwa.isInstalled')));
+  else {
+    card.append(h('p', { class: 'muted' }, t('pwa.pitch')));
+    if (pwa.prompt || isIos()) card.append(h('div', { class: 'row' }, h('button', { class: 'btn', onclick: installApp }, h('span', { class: 'ttl' }, ic('download', 18), t('pwa.install')))));
+    else card.append(h('p', { class: 'muted small' }, t('pwa.generic')));
+  }
+  return card;
+}
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); pwa.prompt = e; if (view === 'today' || view === 'settings') render(); });
+window.addEventListener('appinstalled', () => { pwa.prompt = null; toast(t('pwa.installed')); render(); });
+
+/** Плашка снизу над меню: обновление или офлайн. Живёт вне #app, поэтому не пропадает при render(). */
+function pwaBar(kind, text, action) {
+  pwa.bar?.remove();
+  pwa.bar = h('div', { class: 'pwa-bar ' + kind, role: 'status' }, ic(kind === 'offline' ? 'wifioff' : 'refresh', 18), h('span', null, text),
+    action ? h('button', { class: 'btn', onclick: action.fn }, action.label) : null);
+  document.body.append(pwa.bar);
+}
+function showUpdate(worker) {
+  pwaBar('update', t('pwa.update'), { label: t('pwa.reload'), fn: () => { pwa.updating = true; worker.postMessage('SKIP_WAITING'); } });
+}
+function updateOnline() {
+  if (!navigator.onLine) pwaBar('offline', t('pwa.offline'));
+  else if (pwa.bar && pwa.bar.classList.contains('offline')) { pwa.bar.remove(); pwa.bar = null; toast(t('pwa.online')); }
+}
+window.addEventListener('offline', updateOnline);
+window.addEventListener('online', updateOnline);
+
+function startServiceWorker() {
+  if (!('serviceWorker' in navigator) || !location.protocol.startsWith('http')) return;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (pwa.updating) location.reload(); });
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    const watch = w => w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdate(w); });
+    if (reg.waiting && navigator.serviceWorker.controller) showUpdate(reg.waiting);
+    reg.addEventListener('updatefound', () => { if (reg.installing) watch(reg.installing); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+    setInterval(() => reg.update().catch(() => {}), 3600 * 1000);
+  }).catch(() => {});
+}
+
+/** Ярлыки иконки приложения: ?view=fridge, ?action=add */
+function applyLaunchParams() {
+  const q = new URLSearchParams(location.search);
+  const v = q.get('view'), a = q.get('action');
+  if (['today', 'fridge', 'insights', 'settings'].includes(v)) view = v;
+  if (a === 'add') { view = 'today'; setTimeout(() => { const i = $('.quick-input'); if (i) i.focus(); }, 150); }
+  if (v || a || q.has('source')) {
+    ['view', 'action', 'source'].forEach(k => q.delete(k));
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+  }
+}
+
 /* ───────────── старт ───────────── */
+applyLaunchParams();
 render();
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+updateOnline();
+startServiceWorker();
 window.__freefork = { get state() { return S; }, render, mergeStates, stable, syncNow };
 })();
