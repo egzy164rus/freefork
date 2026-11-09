@@ -1,7 +1,7 @@
 // FreeFork service worker: офлайн-режим и быстрый запуск.
 // Стратегия: сначала сеть (чтобы после обновления сайта сразу видеть новую версию),
 // но если сеть медленная или её нет — мгновенно отдаём копию из кэша.
-const VERSION = 'v5';
+const VERSION = 'v6';
 const CACHE = 'freefork-' + VERSION;
 const SHELL = ['./', 'index.html', 'css/app.css', 'css/design.css',
   'js/config.js', 'js/vendor/supabase.js', 'js/icons.js', 'js/i18n.js', 'js/engine.js', 'js/cloud.js', 'js/app.js',

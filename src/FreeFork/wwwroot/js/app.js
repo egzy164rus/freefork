@@ -59,15 +59,25 @@ const KEY = 'freefork.v1';
 const MEALS = ['breakfast', 'lunch', 'dinner', 'snack'];
 const MEAL_ICON = { breakfast: 'coffee', lunch: 'utensils', dinner: 'moon', snack: 'apple' };
 const SPLITS = { balanced: [0.25, 0.30, 0.45], protein: [0.35, 0.30, 0.35], lowcarb: [0.30, 0.40, 0.30] };
-const GOAL_DELTA = { lose: -500, lose_slow: -300, maintain: 0, gain: 300 };
+const KCAL_PER_KG = 7700;                       // ~ккал в 1 кг изменения веса
+const DAILY_PER_KG_WEEK = KCAL_PER_KG / 7;      // 0.5 кг/нед ≈ 550 ккал/день
+const PACES = { lose: [0.25, 0.5, 0.75, 1], gain: [0.25, 0.5] };
 
 function defaults() {
   return {
     v: 1, lang: (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en',
     theme: 'auto', flex: true, configured: false,
-    profile: { sex: 'f', age: 30, height: 168, weight: 68, activity: 1.375, goal: 'maintain', split: 'balanced', manual: null },
+    profile: { sex: 'f', age: 30, height: 168, weight: 68, activity: 1.375, goal: 'maintain', split: 'balanced', manual: null,
+      pace: 0.5, tMin: null, tMax: null, tDate: null, startW: null, startD: null },
     days: {}, weights: {}, custom: [], recent: [], favs: [], demoKeys: [],
   };
+}
+/** Старые цели (lose_slow и т. п.) → новая модель: цель + темп в кг/нед. */
+function migrateProfile(p) {
+  if (p.goal === 'lose_slow') { p.goal = 'lose'; p.pace = 0.25; }
+  if (!['lose', 'maintain', 'gain', 'recomp'].includes(p.goal)) p.goal = 'maintain';
+  if (!(p.pace > 0)) p.pace = p.goal === 'gain' ? 0.25 : 0.5;
+  return p;
 }
 function load() {
   const d = defaults();
@@ -75,7 +85,7 @@ function load() {
     const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (raw && typeof raw === 'object') {
       Object.assign(d, raw);
-      d.profile = Object.assign(defaults().profile, raw.profile || {});
+      d.profile = migrateProfile(Object.assign(defaults().profile, raw.profile || {}));
     }
   } catch { /* повреждённые данные — начинаем с нуля */ }
   return d;
@@ -98,9 +108,51 @@ let cur = today();
 /* ───────────── расчёты ───────────── */
 function bmr(p) { return 10 * p.weight + 6.25 * p.height - 5 * p.age + (p.sex === 'm' ? 5 : -161); }
 function tdee(p) { return bmr(p) * p.activity; }
+/** Тренд веса за последние 4 недели, кг/нед (нужно ≥3 записей на промежутке ≥6 дней). */
+function weightTrend() {
+  const cutoff = ymd(addDays(new Date(), -28));
+  const pts = Object.keys(S.weights).sort().filter(k => k >= cutoff).map(k => [parseYmd(k).getTime() / 864e5, S.weights[k]]);
+  if (pts.length < 3 || pts[pts.length - 1][0] - pts[0][0] < 6) return null;
+  const n = pts.length, mx = pts.reduce((a, q) => a + q[0], 0) / n, my = pts.reduce((a, q) => a + q[1], 0) / n;
+  const den = pts.reduce((a, q) => a + (q[0] - mx) ** 2, 0);
+  return den ? pts.reduce((a, q) => a + (q[0] - mx) * (q[1] - my), 0) / den * 7 : null;
+}
+/** План цели: темп, дефицит/профицит, безопасные пределы, сроки. Цель может быть диапазоном веса (например 80–90 кг). */
+function goalPlan() {
+  const p = S.profile, w = p.weight, td = tdee(p);
+  const dir = p.goal === 'lose' ? -1 : p.goal === 'gain' ? 1 : 0;
+  const tmin = p.tMin || p.tMax || null, tmax = p.tMax || p.tMin || null;
+  const plan = { dir, tmin, tmax, first: dir < 0 ? tmax : tmin, final: dir < 0 ? tmin : tmax, delta: 0, pace: 0, effPace: 0 };
+  if (!dir) return plan;
+  const hasT = tmin != null;
+  if (hasT && (dir < 0 ? w <= plan.final : w >= plan.final)) { plan.reached = true; return plan; }   // цель достигнута — норма на поддержание
+  let pace = p.pace || (dir < 0 ? 0.5 : 0.25);
+  if (p.tDate && hasT && (dir < 0 ? w > plan.first : w < plan.first)) {
+    const weeks = (parseYmd(p.tDate) - parseYmd(today())) / (7 * 864e5);
+    if (weeks > 0.3) {
+      const max = PACES[p.goal][PACES[p.goal].length - 1];
+      plan.dateMode = true; plan.reqPace = Math.abs(w - plan.first) / weeks;
+      plan.dateTooFast = plan.reqPace > max;
+      pace = clamp(plan.reqPace, 0.1, max);
+    }
+  }
+  let kcal = td + dir * pace * DAILY_PER_KG_WEEK;
+  if (dir < 0) { const lo = Math.max(p.sex === 'm' ? 1500 : 1200, td * 0.75); if (kcal < lo) { kcal = lo; plan.capped = true; } }
+  else { const hi = td * 1.15; if (kcal > hi) { kcal = hi; plan.capped = true; } }
+  plan.pace = pace; plan.delta = kcal - td; plan.effPace = Math.abs(plan.delta) / DAILY_PER_KG_WEEK;
+  if (hasT) {
+    const rem = n => dir < 0 ? Math.max(0, w - n) : Math.max(0, n - w);
+    plan.remFirst = rem(plan.first); plan.remFinal = rem(plan.final);
+    const eta = r => addDays(new Date(), Math.round(r / Math.max(plan.effPace, 0.05) * 7));
+    plan.etaFirst = eta(plan.remFirst); plan.etaFinal = eta(plan.remFinal);
+    plan.inBand = w >= tmin && w <= tmax;
+    plan.bmiFinal = plan.final / ((p.height / 100) ** 2);
+  }
+  return plan;
+}
 function targets() {
   const p = S.profile;
-  let kcal = p.manual ? p.manual : Math.round((tdee(p) + GOAL_DELTA[p.goal]) / 10) * 10;
+  let kcal = p.manual ? p.manual : Math.round((tdee(p) + goalPlan().delta) / 10) * 10;
   kcal = Math.max(1200, kcal);
   const sp = SPLITS[p.split] || SPLITS.balanced;
   return { kcal, p: r0(kcal * sp[0] / 4), f: r0(kcal * sp[1] / 9), c: r0(kcal * sp[2] / 4) };
@@ -254,18 +306,19 @@ function barChart(values, target, labels) {
   });
   return el;
 }
-function lineChart(points) {
+function lineChart(points, band) {
   const W = 320, H = 140, pl = 30, pr = 8, pt = 10, pb = 18;
   const el = sv('svg', { viewBox: `0 0 ${W} ${H}`, class: 'chart', role: 'img' });
   if (points.length < 2) return el;
   const xs = points.map(p => p.x), ys = points.map(p => p.y);
   const x0 = Math.min(...xs), x1 = Math.max(...xs);
-  const y0 = Math.floor(Math.min(...ys) - 0.5), y1 = Math.ceil(Math.max(...ys) + 0.5);
+  const y0 = Math.floor(Math.min(...ys, band ? band.lo : Infinity) - 0.5), y1 = Math.ceil(Math.max(...ys, band ? band.hi : -Infinity) + 0.5);
   const X = v => pl + (W - pl - pr) * (x1 === x0 ? 0.5 : (v - x0) / (x1 - x0));
   const Y = v => pt + (H - pt - pb) * (1 - (v - y0) / (y1 - y0 || 1));
   [y0, (y0 + y1) / 2, y1].forEach(v => {
     el.append(sv('line', { x1: pl, x2: W - pr, y1: Y(v), y2: Y(v), class: 'grid' }), sv('text', { x: pl - 4, y: Y(v) + 3, class: 'chart-label', 'text-anchor': 'end' }, r1(v)));
   });
+  if (band) el.append(sv('rect', { x: pl, y: Y(band.hi), width: W - pl - pr, height: Math.max(2, Y(band.lo) - Y(band.hi)), class: 'chart-band' }));
   el.append(sv('polyline', { points: points.map(p => `${X(p.x)},${Y(p.y)}`).join(' '), class: 'line' }));
   points.forEach(p => el.append(sv('circle', { cx: X(p.x), cy: Y(p.y), r: 3, class: 'dot' })));
   return el;
@@ -356,6 +409,7 @@ function viewToday() {
       h('div', { class: 'sum-row' }, h('span', null, t('fiber')), h('b', null, r0(tot.fiber) + ' ' + t('g')))),
     h('div', { class: 'macros' }, macro('p', t('protein')), macro('f', t('fat')), macro('c', t('carbs'))),
     left < -50 ? h('p', { class: 'soft-note' }, t('overNote')) : null));
+  const gc = goalProgressCard(); if (gc) nodes.push(gc);
 
   // гибкая неделя
   if (S.flex) {
@@ -775,14 +829,17 @@ function viewInsights() {
   const wk = Object.keys(S.weights).sort();
   const last = wk.length ? S.weights[wk[wk.length - 1]] : null;
   const first = wk.length ? S.weights[wk[0]] : null;
+  const gp = goalPlan(), trend = weightTrend();
   const wInput = h('input', { type: 'number', inputmode: 'decimal', step: '0.1', min: 20, max: 400, placeholder: last ? String(last) : '70.0' });
   nodes.push(h('section', { class: 'card' },
     h('div', { class: 'card-title' }, ttl('gauge', t('weight.title')), last ? h('span', { class: 'pill' }, `${last} ${t('kg')}${wk.length > 1 ? ` (${last - first >= 0 ? '+' : ''}${r1(last - first)})` : ''}`) : null),
-    wk.length > 1 ? lineChart(wk.slice(-60).map(k => ({ x: parseYmd(k).getTime(), y: S.weights[k] }))) : h('p', { class: 'muted' }, t('weight.hint')),
+    wk.length > 1 ? lineChart(wk.slice(-60).map(k => ({ x: parseYmd(k).getTime(), y: S.weights[k] })), gp.dir && gp.tmin != null ? { lo: gp.tmin, hi: gp.tmax } : null) : h('p', { class: 'muted' }, t('weight.hint')),
+    gp.dir && gp.tmin != null && wk.length > 1 ? h('p', { class: 'muted small' }, t('goal.bandHint', { a: gp.tmin, b: gp.tmax })) : null,
+    trend != null ? h('p', { class: 'small' }, t('goal.trend', { v: (trend > 0 ? '+' : '−') + r1(Math.abs(trend)) })) : null,
     h('div', { class: 'row' }, wInput, h('button', { class: 'btn', onclick: () => {
       const v = num(wInput.value);
       if (v < 20 || v > 400) { toast(t('weight.bad')); return; }
-      S.weights[today()] = r1(v); S.profile.weight = r1(v); save(); render(); toast(t('saved'));
+      S.weights[today()] = r1(v); S.profile.weight = r1(v); if (!S.profile.startW) { S.profile.startW = r1(v); S.profile.startD = today(); } save(); render(); toast(t('saved'));
     } }, t('weight.log')))));
 
   return h('div', { class: 'stack' }, nodes);
@@ -826,6 +883,98 @@ function removeDemo() {
   S.demoKeys = []; save();
 }
 
+
+/* ───────────── цель: вес, темп, сроки ───────────── */
+const fmtDate = d => d.toLocaleDateString(locale(), { day: 'numeric', month: 'long', year: 'numeric' });
+const fmtKg = n => String(Math.round(n * 100) / 100 === Math.round(n * 10) / 10 ? r1(n) : Math.round(n * 100) / 100);
+const weeksText = w => {
+  const n = Math.max(1, Math.round(w));
+  if (S.lang === 'en') return `${n} ${t(n === 1 ? 'wk.1' : 'wk.5')}`;
+  return `${n} ${t(n % 10 === 1 && n % 100 !== 11 ? 'wk.1' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 'wk.2' : 'wk.5')}`;
+};
+
+/** Компактная карточка прогресса на экране «Сегодня» */
+function goalProgressCard() {
+  const p = S.profile, pl = goalPlan();
+  if (!pl.dir || pl.tmin == null) return null;
+  const w = p.weight, start = p.startW || w;
+  const total = Math.abs(start - pl.final);
+  const done = pl.reached ? 1 : total < 0.05 ? 0 : clamp((pl.dir < 0 ? start - w : w - start) / total, 0, 1);
+  const range = pl.tmin === pl.tmax ? fmtKg(pl.tmin) : `${fmtKg(pl.tmin)}–${fmtKg(pl.tmax)}`;
+  const card = h('section', { class: 'card goal-card', onclick: () => { view = 'settings'; render(); window.scrollTo(0, 0); } },
+    h('div', { class: 'card-title' }, ttl('target', t('goal.cardTitle')), h('span', { class: 'pill' }, `${fmtKg(w)} → ${range} ${t('kg')}`)),
+    h('div', { class: 'bar-track goal-track' }, h('div', { class: 'bar-fill goal-fill', style: { width: Math.round(done * 100) + '%' } })));
+  if (pl.reached) card.append(h('p', { class: 'goal-line ok' }, ic('check', 16), t('goal.reached')));
+  else {
+    const inb = pl.remFirst < 0.05, rem = inb ? pl.remFinal : pl.remFirst, tg = inb ? pl.final : pl.first, eta = inb ? pl.etaFinal : pl.etaFirst;
+    card.append(h('p', { class: 'goal-line' }, t('goal.left', { n: fmtKg(rem), t: fmtKg(tg) }), h('span', { class: 'muted' }, ` · ${t('goal.eta', { d: fmtDate(eta) })}`)));
+    if (pl.inBand) card.append(h('p', { class: 'goal-line ok' }, ic('check', 16), t('goal.inBand')));
+  }
+  return card;
+}
+
+/** Настройка цели: тип, темп, целевой вес (можно диапазон), срок */
+function goalCard() {
+  const p = S.profile, pl = goalPlan(), tg = targets();
+  const upd = (k, v) => { S.profile[k] = v; S.configured = true; save(); };
+  const resetStart = () => { S.profile.startW = S.profile.weight; S.profile.startD = today(); };
+  const card = h('section', { class: 'card goal-settings' }, h('div', { class: 'card-title' }, ttl('target', t('goal.title'))));
+  card.append(field(t('set.goal'), select([['lose', t('goal.lose')], ['maintain', t('goal.maintain')], ['gain', t('goal.gain')], ['recomp', t('goal.recomp')]], p.goal, v => {
+    upd('goal', v); resetStart();
+    if (PACES[v] && !PACES[v].includes(S.profile.pace)) upd('pace', v === 'gain' ? 0.25 : 0.5);
+    if (v === 'recomp') upd('split', 'protein');
+    render();
+  })));
+  if (p.goal === 'maintain' || p.goal === 'recomp') {
+    card.append(h('p', { class: 'muted small' }, t(p.goal === 'recomp' ? 'goal.recompHint' : 'goal.maintainHint')));
+    return card;
+  }
+  const paces = PACES[p.goal];
+  card.append(field(t('goal.pace'), select(paces.map(v => [v, `${v} ${t('kg')}/${t('goal.wk')} · ${p.goal === 'lose' ? '−' : '+'}${r0(v * DAILY_PER_KG_WEEK)} ${t('kcal')} — ${t((p.goal === 'lose' ? 'goal.pace.' : 'goal.gpace.') + v)}`]), String(p.pace), v => { upd('pace', parseFloat(v)); render(); })));
+  const num2 = (key, label) => field(label, h('input', { type: 'number', inputmode: 'decimal', step: '0.1', min: 30, max: 300, value: p[key] ?? '', placeholder: '—',
+    onchange: e => {
+      const v = e.target.value === '' ? null : clamp(num(e.target.value), 30, 300);
+      upd(key, v);
+      const a = S.profile.tMin, b = S.profile.tMax;
+      if (a && b && a > b) { S.profile.tMin = b; S.profile.tMax = a; }   // «от» не может быть больше «до»
+      if (!S.profile.startW) resetStart();
+      render();
+    } }));
+  card.append(h('div', { class: 'grid2' }, num2('tMin', t('goal.from')), num2('tMax', t('goal.to'))), h('p', { class: 'hint' }, t('goal.rangeHint')));
+  card.append(field(t('goal.date'), h('div', { class: 'row date-row' },
+    h('input', { type: 'date', min: today(), value: p.tDate || '', onchange: e => { upd('tDate', e.target.value || null); render(); } }),
+    p.tDate ? h('button', { class: 'btn ghost', onclick: () => { upd('tDate', null); render(); } }, t('goal.clear')) : null), t('goal.dateHint')));
+
+  const box = h('div', { class: 'goal-sum' });
+  if (pl.tmin == null) box.append(h('p', { class: 'muted' }, t('goal.setTarget')));
+  else {
+    const range = pl.tmin === pl.tmax ? fmtKg(pl.tmin) : `${fmtKg(pl.tmin)}–${fmtKg(pl.tmax)}`;
+    box.append(h('div', { class: 'goal-now' }, h('span', { class: 'muted' }, t('goal.now')), h('b', null, `${fmtKg(p.weight)} ${t('kg')}`), ic('chart', 16), h('b', null, `${range} ${t('kg')}`)));
+    if (pl.reached) box.append(h('p', { class: 'goal-line ok' }, ic('check', 16), t('goal.reachedFull')),
+      h('button', { class: 'btn ghost', onclick: () => { upd('goal', 'maintain'); resetStart(); render(); } }, t('goal.toMaintain')));
+    else {
+      box.append(...[
+        pl.remFirst >= 0.05 ? h('p', { class: 'goal-line' }, t('goal.left', { n: fmtKg(pl.remFirst), t: fmtKg(pl.first) }), h('span', { class: 'muted' }, ` · ${weeksText(pl.remFirst / Math.max(pl.effPace, 0.05))} · ${t('goal.eta', { d: fmtDate(pl.etaFirst) })}`)) : null,
+        pl.final !== pl.first ? h('p', { class: 'goal-line' }, t('goal.left', { n: fmtKg(pl.remFinal), t: fmtKg(pl.final) }), h('span', { class: 'muted' }, ` · ${t('goal.eta', { d: fmtDate(pl.etaFinal) })}`)) : null,
+        pl.inBand ? h('div', { class: 'goal-note ok' }, ic('check', 16), h('span', null, t('goal.inBand')), h('button', { class: 'btn ghost', onclick: () => { upd('goal', 'maintain'); resetStart(); render(); } }, t('goal.toMaintain'))) : null].filter(Boolean));
+    }
+    if (!pl.reached) box.append(h('p', { class: 'small' }, t('goal.plan', { pace: fmtKg(pl.effPace), d: r0(Math.abs(pl.delta)), k: tg.kcal, s: pl.dir < 0 ? t('goal.deficit') : t('goal.surplus') })));
+    if (pl.dateMode && !pl.dateTooFast) box.append(h('p', { class: 'small muted' }, t('goal.dateMode', { v: fmtKg(pl.reqPace) })));
+    if (pl.dateTooFast) box.append(h('div', { class: 'goal-note warn' }, ic('warn', 16), h('span', null, t('goal.tooFast', { d: fmtDate(pl.etaFirst) }))));
+    if (pl.capped) box.append(h('div', { class: 'goal-note warn' }, ic('warn', 16), h('span', null, t(pl.dir < 0 ? 'goal.capLose' : 'goal.capGain'))));
+    if (pl.bmiFinal && pl.bmiFinal < 18.5) box.append(h('div', { class: 'goal-note warn' }, ic('warn', 16), h('span', null, t('goal.lowBmi', { b: r1(pl.bmiFinal) }))));
+    const tr = weightTrend();
+    if (tr != null && !pl.reached) {
+      const good = pl.dir * tr > 0.02;
+      box.append(h('p', { class: 'small' }, t('goal.factual', { v: (tr > 0 ? '+' : '−') + r1(Math.abs(tr)), p: (pl.dir < 0 ? '−' : '+') + fmtKg(pl.effPace) }),
+        good && pl.remFinal > 0 ? ' ' + t('goal.factEta', { d: fmtDate(addDays(new Date(), Math.round((pl.remFirst >= 0.05 ? pl.remFirst : pl.remFinal) / Math.abs(tr) * 7))) }) : ''));
+    }
+    box.append(h('p', { class: 'hint' }, t('goal.disclaimer')));
+  }
+  card.append(box);
+  return card;
+}
+
 /* ───────────── НАСТРОЙКИ ───────────── */
 function viewSettings() {
   const p = S.profile;
@@ -846,7 +995,6 @@ function viewSettings() {
       numField('height', t('set.height'), 120, 230),
       numField('weight', t('set.weight'), 30, 300, 0.1)),
     field(t('set.activity'), select([[1.2, t('act.1')], [1.375, t('act.2')], [1.55, t('act.3')], [1.725, t('act.4')], [1.9, t('act.5')]], p.activity, v => { upd('activity', parseFloat(v)); render(); })),
-    field(t('set.goal'), select([['lose', t('goal.lose')], ['lose_slow', t('goal.lose_slow')], ['maintain', t('goal.maintain')], ['gain', t('goal.gain')]], p.goal, v => { upd('goal', v); render(); })),
     field(t('set.split'), select([['balanced', t('split.balanced')], ['protein', t('split.protein')], ['lowcarb', t('split.lowcarb')]], p.split, v => { upd('split', v); render(); })),
     field(t('set.manual'), h('input', { type: 'number', inputmode: 'numeric', min: 1200, max: 6000, step: 10, value: p.manual || '', placeholder: t('set.auto'), onchange: e => { upd('manual', e.target.value ? clamp(num(e.target.value), 1200, 6000) : null); render(); } }), t('set.manualHint')),
     h('div', { class: 'target-box' },
@@ -854,6 +1002,8 @@ function viewSettings() {
       h('div', null, h('span', { class: 'muted' }, t('set.tdee')), h('b', null, r0(tdee(p)) + ' ' + t('kcal'))),
       h('div', { class: 'hl' }, h('span', { class: 'muted' }, t('set.target')), h('b', null, tg.kcal + ' ' + t('kcal'))),
       h('div', null, h('span', { class: 'muted' }, t('protein') + ' / ' + t('fat') + ' / ' + t('carbs')), h('b', null, `${tg.p} / ${tg.f} / ${tg.c} ${t('g')}`)))));
+
+  nodes.push(goalCard());
 
   nodes.push(h('section', { class: 'card' },
     h('div', { class: 'card-title' }, ttl('calendar', t('set.flexTitle'))),
@@ -889,7 +1039,7 @@ function stable(o) {
 function mergeStates(local, remote) {
   const base = defaults();
   const r = Object.assign(base, remote);
-  r.profile = Object.assign(defaults().profile, remote.profile || {});
+  r.profile = migrateProfile(Object.assign(defaults().profile, remote.profile || {}));
   const newer = (local.updatedAt || 0) >= (r.updatedAt || 0) ? local : r;
   const out = JSON.parse(JSON.stringify(newer));
   out.lang = local.lang; out.theme = local.theme;
@@ -1113,7 +1263,7 @@ function importJson(e) {
       const data = JSON.parse(rd.result);
       if (!data || typeof data.days !== 'object') throw new Error('bad');
       if (!confirm(t('set.importConfirm'))) return;
-      S = Object.assign(defaults(), data); S.profile = Object.assign(defaults().profile, data.profile || {});
+      S = Object.assign(defaults(), data); S.profile = migrateProfile(Object.assign(defaults().profile, data.profile || {}));
       save(); render(); toast(t('set.imported'));
     } catch { toast(t('set.importBad')); }
   };

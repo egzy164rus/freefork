@@ -88,3 +88,19 @@ button,.chip,.tab,.btn{touch-action:manipulation}
 html .toast{left:0;right:0;margin:0 auto;width:max-content;transform:none}
 html .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
 body:has(.pwa-bar) .toast{bottom:calc(150px + env(safe-area-inset-bottom))}
+
+/* ───────── цель и целевой вес ───────── */
+.goal-card{cursor:pointer}
+.goal-track{height:12px;margin:6px 0 10px}
+.goal-fill{background:linear-gradient(90deg,#a3f55b,#22d3b4);box-shadow:0 0 12px -2px rgba(67,230,161,.6)}
+.goal-line{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:.35em 0;font-weight:600}
+.goal-line .muted{font-weight:500}.goal-line.ok{color:var(--accent)}
+.goal-sum{margin-top:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
+.goal-now{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}.goal-now b{font-size:1.15rem}.goal-now .ic{color:var(--accent)}
+.goal-note{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0;padding:10px 12px;border-radius:12px;font-size:.88rem;background:var(--accent-soft)}
+.goal-note.ok .ic{color:var(--accent)}.goal-note .btn{padding:6px 12px;font-size:.85rem}
+.goal-note.warn{background:rgba(255,194,71,.12)}.goal-note.warn .ic{color:var(--accent-2)}
+.goal-note span{flex:1;min-width:140px}
+.date-row{margin-top:0}.date-row input{flex:1}
+input[type=date]{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color-scheme:dark;outline:none}
+.chart-band{fill:var(--accent);opacity:.13}
