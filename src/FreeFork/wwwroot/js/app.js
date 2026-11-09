@@ -587,7 +587,7 @@ function openEditEntry(e, date) {
       field(t('meal'), select(MEALS.map(x => [x, mealName(x)]), meal, v => { meal = v; })),
       h('div', { class: 'row' },
         h('button', { class: 'btn danger-soft', onclick: () => { const d = getDay(date, true); d.entries = d.entries.filter(x => x.id !== e.id); save(); api.close(); render(); } }, t('delete')),
-        h('button', { class: 'btn grow', onclick: () => { if (grams > 0) { e.grams = r0(grams); e.meal = meal; getDay(date, true); save(); api.close(); render(); } } }, t('save'))));
+        h('button', { class: 'btn grow', onclick: () => { if (grams > 0) { const live = getDay(date, true).entries.find(x => x.id === e.id) || e; live.grams = r0(grams); live.meal = meal; save(); api.close(); render(); } } }, t('save'))));
   });
 }
 
@@ -830,7 +830,7 @@ function removeDemo() {
 function viewSettings() {
   const p = S.profile;
   const tg = targets();
-  const upd = (k, v) => { p[k] = v; S.configured = true; save(); };
+  const upd = (k, v) => { S.profile[k] = v; S.configured = true; save(); };   // всегда актуальный S (его могла заменить синхронизация)
   const numField = (k, label, min, max, step = 1) => field(label, h('input', { type: 'number', inputmode: 'decimal', min, max, step, value: p[k], onchange: e => { upd(k, clamp(num(e.target.value, p[k]), min, max)); render(); } }));
   const nodes = [];
 
@@ -935,7 +935,9 @@ async function syncNow() {
     let remoteStr = null;
     if (remote && remote.data && typeof remote.data === 'object' && remote.data.days && typeof remote.data.days === 'object') {
       remoteStr = stable(remote.data);
-      S = mergeStates(S, remote.data);
+      // Объект S подменяем только если данные реально отличаются: иначе открытые экраны потеряли бы связь с ним.
+      const merged = mergeStates(S, remote.data);
+      if (stable(merged) !== stable(S)) S = merged;
     }
     if (remoteStr !== stable(S)) await Cloud.push(S);
     persist();
