@@ -1,0 +1,68 @@
+/* ───────── Шрифт (свой, без CDN) ───────── */
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(../fonts/inter-cyrillic-wght-normal.woff2) format("woff2-variations");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;
+  src:url(../fonts/inter-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ───────── Общее для всех стилей ───────── */
+:root{--ring-a:var(--accent);--ring-b:var(--accent);--font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{font-family:var(--font);font-feature-settings:"cv11","ss01","tnum" 0;-webkit-font-smoothing:antialiased}
+.ic{flex:none;display:block}
+.ttl{display:inline-flex;align-items:center;gap:8px}.ttl .ic{color:var(--accent)}
+.card-title{font-size:1rem;letter-spacing:-.01em}
+.ring-fg{stroke:url(#rg)}
+.logo{color:#fff}
+.chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px}
+.icon-btn .ic{margin:auto}
+.nav-ic{display:grid;place-items:center;height:24px}
+.meal-ic{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--accent-soft);color:var(--accent)}
+.scale-btn{display:grid;place-items:center;filter:none;color:var(--muted);padding:0;width:44px;height:44px}
+.scale-btn.on{color:var(--accent)}
+.star .ic{fill:none}.star.on .ic{fill:var(--accent-2);stroke:var(--accent-2)}.icon-btn.star{background:none}
+.ing-ic{display:inline-flex;vertical-align:-2px;color:var(--accent)}.ing .miss .ing-ic{color:var(--muted)}
+.pill .ic{display:inline-block;vertical-align:-2px}
+button:focus-visible,a:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn .ttl .ic{color:inherit}
+.chip.sync[data-state=syncing] .ic{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═════════ Оформление «Midnight»: тёмное, неоновые акценты ═════════ */
+html[data-theme=dark]{
+  --bg:#080c11;--card:#0f151d;--text:#eaf1f7;--muted:#7f8f9e;--line:rgba(255,255,255,.07);
+  --accent:#43e6a1;--accent-2:#ffc247;--accent-soft:rgba(67,230,161,.12);--over:#a78bfa;
+  --p:#5b9dff;--f:#ffc247;--c:#43e6a1;--w:#38d3ff;
+  --ring-a:#a3f55b;--ring-b:#22d3b4;--radius:22px;--shadow:0 0 0 1px rgba(255,255,255,.03)}
+html body{background:radial-gradient(70% 30% at 50% -5%,rgba(34,211,180,.16),transparent 70%),var(--bg)}
+html .card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0)),var(--card);border-color:rgba(255,255,255,.07)}
+html .topbar{background:rgba(8,12,17,.55);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
+html .logo{background:linear-gradient(135deg,#a3f55b,#22d3b4);color:#05130d;box-shadow:0 0 18px rgba(67,230,161,.45);width:34px;height:34px;border-radius:11px}
+html .badge-free{background:rgba(255,194,71,.16);color:#ffc247;border:1px solid rgba(255,194,71,.35)}
+html .btn{background:linear-gradient(135deg,#a3f55b,#22d3b4);color:#04140d;box-shadow:0 0 22px -4px rgba(67,230,161,.55);border-radius:14px}
+html .btn.ghost{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+html .btn.danger-soft{background:rgba(167,139,250,.14);color:var(--over);box-shadow:none}
+html .icon-btn.add{background:linear-gradient(135deg,#a3f55b,#22d3b4);color:#04140d;box-shadow:0 0 16px -2px rgba(67,230,161,.6)}
+html .chip{background:rgba(255,255,255,.04)}
+html .chip.login{background:linear-gradient(135deg,#a3f55b,#22d3b4);color:#04140d;border:0}
+html .ring-wrap{filter:drop-shadow(0 0 14px rgba(34,211,180,.5))}
+html .ring circle{stroke-width:12}html .ring-bg{stroke:rgba(255,255,255,.07)}
+html .ring-num{font-size:2.6rem;font-weight:800;letter-spacing:-.05em}
+html .bar-track{background:rgba(255,255,255,.07)}
+html .bar-fill{box-shadow:0 0 10px -1px currentColor}
+html .m-p{background:#5b9dff;color:#5b9dff}html .m-f{color:#ffc247}
+html .m-f{background:#ffc247;color:#ffc247}html .m-c{background:#43e6a1;color:#43e6a1}html .m-w{background:#38d3ff;color:#38d3ff}
+html .banner{background:linear-gradient(135deg,rgba(67,230,161,.12),rgba(34,211,180,.04))}
+html input[type=text],html input[type=email],html input[type=password],html input[type=number],html input[type=search],html select,html textarea{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.09);border-radius:14px}
+html .bottom-nav{background:rgba(12,18,25,.88);backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.07)}
+html .bottom-nav button.active{background:transparent;color:var(--accent);text-shadow:0 0 14px rgba(67,230,161,.6)}
+html .bottom-nav button.active .ic{filter:drop-shadow(0 0 6px rgba(67,230,161,.7))}
+html .sheet{background:#0f151d;border:1px solid rgba(255,255,255,.08)}
+html .wk-bar{background:linear-gradient(180deg,#a3f55b,#22d3b4);opacity:.95}
+html .wk-bar-wrap{background:rgba(255,255,255,.04)}
+html .target-box .hl{background:linear-gradient(135deg,#a3f55b,#22d3b4);color:#04140d}
+html .target-box .hl .muted{color:rgba(4,20,13,.7)}
+html .entries li:hover,html .food-row:hover{background:rgba(255,255,255,.03)}
+html .tab.on{color:#04140d;background:linear-gradient(135deg,#a3f55b,#22d3b4)}
+
+html .toast{background:rgba(22,32,44,.92);color:var(--text);border:1px solid rgba(67,230,161,.35);backdrop-filter:blur(14px);box-shadow:0 10px 30px -8px rgba(0,0,0,.7),0 0 18px -6px rgba(67,230,161,.5)}
+html .overlay{background:rgba(2,5,8,.62);backdrop-filter:blur(3px)}

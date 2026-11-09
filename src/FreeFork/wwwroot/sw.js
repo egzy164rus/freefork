@@ -1,8 +1,8 @@
 // Service worker: приложение ставится на телефон, открывается и работает без сети
 // (встроенная база продуктов и рецепты лежат в data/*.json и кэшируются).
-const CACHE = 'freefork-v3';
-const SHELL = ['./', 'css/app.css', 'js/config.js', 'js/vendor/supabase.js', 'js/i18n.js', 'js/engine.js', 'js/cloud.js', 'js/app.js',
-  'data/foods.json', 'data/recipes.json', 'manifest.webmanifest', 'icon.svg'];
+const CACHE = 'freefork-v4';
+const SHELL = ['./', 'css/app.css', 'css/design.css', 'js/config.js', 'js/vendor/supabase.js', 'js/icons.js', 'js/i18n.js', 'js/engine.js', 'js/cloud.js', 'js/app.js',
+  'data/foods.json', 'data/recipes.json', 'manifest.webmanifest', 'icon.svg', 'fonts/inter-latin-wght-normal.woff2', 'fonts/inter-cyrillic-wght-normal.woff2'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));

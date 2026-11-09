@@ -5,6 +5,9 @@
 /* ───────────── helpers ───────────── */
 const $ = (s, r = document) => r.querySelector(s);
 const flat = a => a.flat(Infinity);
+const ic = (name, size) => window.Icon(name, size);
+/** Заголовок карточки: иконка + текст */
+const ttl = (name, text) => h('span', { class: 'ttl' }, ic(name, 18), h('span', null, text));
 function h(tag, attrs, ...kids) {
   const el = document.createElement(tag);
   const props = [];
@@ -54,7 +57,7 @@ const locale = () => (S.lang === 'ru' ? 'ru-RU' : 'en-GB');
 /* ───────────── state ───────────── */
 const KEY = 'freefork.v1';
 const MEALS = ['breakfast', 'lunch', 'dinner', 'snack'];
-const MEAL_ICON = { breakfast: '🍳', lunch: '🥗', dinner: '🍝', snack: '🍎' };
+const MEAL_ICON = { breakfast: 'coffee', lunch: 'utensils', dinner: 'moon', snack: 'apple' };
 const SPLITS = { balanced: [0.25, 0.30, 0.45], protein: [0.35, 0.30, 0.35], lowcarb: [0.30, 0.40, 0.30] };
 const GOAL_DELTA = { lose: -500, lose_slow: -300, maintain: 0, gain: 300 };
 
@@ -182,7 +185,7 @@ function modal(title, build, opts = {}) {
   const overlay = h('div', { class: 'overlay', onclick: e => { if (e.target === overlay) api.close(); } });
   const body = h('div', { class: 'sheet-body' });
   const sheet = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true' },
-    h('div', { class: 'sheet-head' }, h('h3', null, title), h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => api.close() }, '✕')), body);
+    h('div', { class: 'sheet-head' }, h('h3', null, title), h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => api.close() }, ic('x', 18))), body);
   overlay.append(sheet);
   document.body.append(overlay);
   document.body.classList.add('noscroll');
@@ -231,6 +234,8 @@ function ring(eaten, target) {
   const frac = clamp(eaten / target, 0, 1);
   const over = clamp((eaten - target) / target, 0, 1);
   return sv('svg', { viewBox: '0 0 180 180', class: 'ring', role: 'img', 'aria-label': `${r0(eaten)} / ${target}` },
+    sv('defs', null, sv('linearGradient', { id: 'rg', x1: 0, y1: 0, x2: 1, y2: 1 },
+      sv('stop', { offset: '0%', style: 'stop-color:var(--ring-a)' }), sv('stop', { offset: '100%', style: 'stop-color:var(--ring-b)' }))),
     sv('circle', { cx: 90, cy: 90, r: R, class: 'ring-bg' }),
     sv('circle', { cx: 90, cy: 90, r: R, class: 'ring-fg', 'stroke-dasharray': `${C * frac} ${C}`, transform: 'rotate(-90 90 90)' }),
     over > 0 ? sv('circle', { cx: 90, cy: 90, r: R - 12, class: 'ring-over', 'stroke-dasharray': `${2 * Math.PI * (R - 12) * over} ${2 * Math.PI * (R - 12)}`, transform: 'rotate(-90 90 90)' }) : null);
@@ -267,28 +272,27 @@ function lineChart(points) {
 }
 
 /* ───────────── каркас ───────────── */
-const VIEWS = [['today', '📓'], ['fridge', '🧊'], ['insights', '📈'], ['settings', '⚙️']];
+const VIEWS = [['today', 'diary'], ['fridge', 'fridge'], ['insights', 'chart'], ['settings', 'user']];
 
 function render() {
   const y = window.scrollY;
   document.documentElement.lang = S.lang;
-  const theme = S.theme === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : S.theme;
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme = 'dark';   // оформление Midnight — тёмное
   const root = $('#app');
   let main;
   try { main = ({ today: viewToday, fridge: viewFridge, insights: viewInsights, settings: viewSettings })[view](); }
   catch (e) { console.error(e); main = h('div', { class: 'card' }, 'Error: ' + e.message); }
   root.replaceChildren(
     h('header', { class: 'topbar' },
-      h('div', { class: 'brand' }, h('span', { class: 'logo' }, '🍴'), h('span', null, 'FreeFork'), h('span', { class: 'badge-free' }, t('free'))),
+      h('div', { class: 'brand' }, h('span', { class: 'logo' }, ic('fork', 18)), h('span', null, 'FreeFork'), h('span', { class: 'badge-free' }, t('free'))),
       h('div', { class: 'top-actions' },
         Cloud.enabled && !Cloud.user ? h('button', { class: 'chip login', onclick: () => openAuth('signin') }, t('acc.signinShort')) : null,
         Cloud.enabled && Cloud.user ? h('button', { id: 'sync-badge', class: 'chip sync', onclick: () => { view = 'settings'; render(); window.scrollTo(0, 0); } }) : null,
         h('button', { class: 'chip', onclick: () => { S.lang = S.lang === 'ru' ? 'en' : 'ru'; save(); render(); }, 'aria-label': 'Language' }, S.lang === 'ru' ? 'RU' : 'EN'),
-        h('button', { class: 'chip', onclick: () => { S.theme = theme === 'dark' ? 'light' : 'dark'; save(); render(); }, 'aria-label': 'Theme' }, theme === 'dark' ? '☀️' : '🌙'))),
+        )),
     h('main', { class: 'content' }, main),
-    h('nav', { class: 'bottom-nav' }, VIEWS.map(([v, ic]) =>
-      h('button', { class: v === view ? 'active' : '', onclick: () => { view = v; render(); window.scrollTo(0, 0); } }, h('span', { class: 'nav-ic' }, ic), h('span', null, t('nav.' + v))))));
+    h('nav', { class: 'bottom-nav' }, VIEWS.map(([v, icn]) =>
+      h('button', { class: v === view ? 'active' : '', onclick: () => { view = v; render(); window.scrollTo(0, 0); } }, h('span', { class: 'nav-ic' }, ic(icn, 22)), h('span', null, t('nav.' + v))))));
   updateBadge();
   window.scrollTo(0, y);
 }
@@ -312,12 +316,12 @@ function viewToday() {
       h('button', { class: 'btn', onclick: () => { view = 'settings'; render(); } }, t('welcome.cta'))));
   }
 
-  if (Cloud.enabled && !Cloud.user && !S.hideCloudBanner) {
+  if (Cloud.enabled && !Cloud.user && !S.hideCloudBanner && S.configured) {
     nodes.push(h('div', { class: 'card banner cloud-banner' },
-      h('div', null, h('b', null, '☁️ ' + t('acc.bannerTitle')), h('p', null, t('acc.bannerText'))),
+      h('div', null, h('b', { class: 'ttl' }, ic('cloud', 18), t('acc.bannerTitle')), h('p', null, t('acc.bannerText'))),
       h('div', { class: 'row' },
         h('button', { class: 'btn', onclick: () => openAuth('signup') }, t('acc.signin')),
-        h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => { S.hideCloudBanner = true; save(false); render(); } }, '✕'))));
+        h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => { S.hideCloudBanner = true; save(false); render(); } }, ic('x', 16)))));
   }
 
   nodes.push(h('div', { class: 'datebar' },
@@ -357,7 +361,7 @@ function viewToday() {
     }
     const diff = fx.target - fx.base;
     nodes.push(h('section', { class: 'card flex-card' },
-      h('div', { class: 'card-title' }, h('span', null, '🗓️ ' + t('flex.title')), h('span', { class: 'pill' }, (diff >= 0 ? '+' : '') + diff + ' ' + t('kcal'))),
+      h('div', { class: 'card-title' }, ttl('calendar', t('flex.title')), h('span', { class: 'pill' }, (diff >= 0 ? '+' : '') + diff + ' ' + t('kcal'))),
       h('div', { class: 'wk' }, bars),
       h('p', { class: 'muted' }, t('flex.text', { target: fx.target, base: fx.base, left: fx.left })),
       diff < -30 ? h('p', { class: 'soft-note' }, t('flex.lowerNote')) : diff > 30 ? h('p', { class: 'soft-note' }, t('flex.higherNote')) : null));
@@ -379,7 +383,7 @@ function viewToday() {
     goBtn.disabled = false; goBtn.textContent = t('quick.btn');
   }
   nodes.push(h('section', { class: 'card quick' },
-    h('div', { class: 'card-title' }, h('span', null, '✨ ' + t('quick.title'))),
+    h('div', { class: 'card-title' }, ttl('sparkles', t('quick.title'))),
     h('div', { class: 'quick-row' }, input, goBtn),
     h('p', { class: 'muted small' }, t('quick.hint'))));
 
@@ -391,15 +395,15 @@ function viewToday() {
     const canCopy = !list.length && getDay(prev).entries.some(e => e.meal === m);
     nodes.push(h('section', { class: 'card meal' },
       h('div', { class: 'meal-head' },
-        h('div', { class: 'meal-title' }, h('span', { class: 'meal-ic' }, MEAL_ICON[m]), h('b', null, mealName(m)), h('span', { class: 'muted' }, list.length ? ` · ${r0(mt.kcal)} ${t('kcal')}` : '')),
+        h('div', { class: 'meal-title' }, h('span', { class: 'meal-ic' }, ic(MEAL_ICON[m], 20)), h('b', null, mealName(m)), h('span', { class: 'muted' }, list.length ? ` · ${r0(mt.kcal)} ${t('kcal')}` : '')),
         h('div', { class: 'meal-actions' },
           canCopy ? h('button', { class: 'icon-btn', title: t('copyYesterday'), 'aria-label': t('copyYesterday'), onclick: () => {
             const src = getDay(prev).entries.filter(e => e.meal === m);
             const dd = getDay(cur, true);
             for (const e of src) dd.entries.push({ ...e, id: uid(), ts: entryTs(cur, m) });
             save(); render(); toast(t('copied'));
-          } }, '↺') : null,
-          h('button', { class: 'icon-btn add', 'aria-label': t('add'), onclick: () => openAddFood(m, cur) }, '＋'))),
+          } }, ic('copy', 18)) : null,
+          h('button', { class: 'icon-btn add', 'aria-label': t('add'), onclick: () => openAddFood(m, cur) }, ic('plus', 20)))),
       list.length ? h('ul', { class: 'entries' }, list.map(e => {
         const n = entNut(e);
         return h('li', { onclick: () => openEditEntry(e, cur) },
@@ -412,7 +416,7 @@ function viewToday() {
   const goalMl = waterGoal();
   const glasses = Math.round(d.water / 250 * 10) / 10;
   nodes.push(h('section', { class: 'card water' },
-    h('div', { class: 'card-title' }, h('span', null, '💧 ' + t('water')), h('span', { class: 'muted' }, `${(d.water / 1000).toFixed(2).replace(/\.?0+$/, '') || 0} / ${(goalMl / 1000).toFixed(1)} ${t('l')}`)),
+    h('div', { class: 'card-title' }, ttl('drop', t('water')), h('span', { class: 'muted' }, `${(d.water / 1000).toFixed(2).replace(/\.?0+$/, '') || 0} / ${(goalMl / 1000).toFixed(1)} ${t('l')}`)),
     h('div', { class: 'bar-track' }, h('div', { class: 'bar-fill m-w', style: { width: clamp(d.water / goalMl * 100, 0, 100) + '%' } })),
     h('div', { class: 'water-btns' },
       h('button', { class: 'btn ghost', onclick: () => { const dd = getDay(cur, true); dd.water = Math.max(0, dd.water - 250); save(); render(); } }, '− 250'),
@@ -423,10 +427,10 @@ function viewToday() {
   const scale5 = (key, icons) => h('div', { class: 'scale' }, icons.map((ic, i) =>
     h('button', { class: 'scale-btn' + (d[key] === i + 1 ? ' on' : ''), 'aria-label': String(i + 1), onclick: () => { const dd = getDay(cur, true); dd[key] = dd[key] === i + 1 ? null : i + 1; save(); render(); } }, ic)));
   nodes.push(h('section', { class: 'card checkin' },
-    h('div', { class: 'card-title' }, h('span', null, '🧠 ' + t('checkin.title'))),
+    h('div', { class: 'card-title' }, ttl('brain', t('checkin.title'))),
     h('p', { class: 'muted small' }, t('checkin.hint')),
-    h('div', { class: 'ci-row' }, h('span', null, t('mood')), scale5('mood', ['😞', '😕', '😐', '🙂', '😄'])),
-    h('div', { class: 'ci-row' }, h('span', null, t('energy')), scale5('energy', ['🥱', '😪', '😐', '💪', '🚀'])),
+    h('div', { class: 'ci-row' }, h('span', null, t('mood')), scale5('mood', [1, 2, 3, 4, 5].map(n => ic('mood' + n, 24)))),
+    h('div', { class: 'ci-row' }, h('span', null, t('energy')), scale5('energy', [1, 2, 3, 4, 5].map(n => ic('energy' + n, 26)))),
     h('div', { class: 'ci-row' }, h('span', null, t('sleep')),
       h('div', { class: 'sleep-in' }, h('input', { type: 'number', inputmode: 'decimal', min: 0, max: 16, step: 0.5, value: d.sleep ?? '', placeholder: '7.5',
         onchange: e => { const dd = getDay(cur, true); const v = e.target.value === '' ? null : clamp(num(e.target.value), 0, 16); dd.sleep = v; save(); render(); } }), h('span', { class: 'muted' }, t('hours'))))));
@@ -445,8 +449,7 @@ function foodRow(f, onPick, star = true) {
       e.stopPropagation();
       if (S.favs.some(x => x.id === f.id)) S.favs = S.favs.filter(x => x.id !== f.id); else S.favs.unshift(f);
       save(); e.currentTarget.classList.toggle('on');
-      e.currentTarget.textContent = e.currentTarget.classList.contains('on') ? '★' : '☆';
-    } }, isFav ? '★' : '☆') : null);
+    } }, ic('star', 20)) : null);
 }
 
 function openAddFood(meal, date, initial = '') {
@@ -480,7 +483,7 @@ function openAddFood(meal, date, initial = '') {
         try { local = await apiCall(`/foods/search?q=${encodeURIComponent(q)}&lang=${S.lang}`); } catch { /* офлайн */ }
         if (my !== seq) return;
         const cust = S.custom.filter(c => c.name.toLowerCase().includes(q.toLowerCase())).slice(0, 5);
-        const online = h('div', { class: 'online' }, h('p', { class: 'muted pad' }, '🌍 ' + t('search.loadingOnline')));
+        const online = h('div', { class: 'online' }, h('p', { class: 'muted pad ttl' }, ic('globe', 16), t('search.loadingOnline')));
         results.replaceChildren(
           cust.length || local.length ? h('ul', { class: 'food-list' }, [...cust, ...local].map(f => foodRow(f, pick))) : h('p', { class: 'muted pad' }, t('search.noLocal')),
           h('div', { class: 'section-label' }, t('search.online')), online);
@@ -520,7 +523,7 @@ function openAddFood(meal, date, initial = '') {
         catch { status.textContent = t('barcode.notfound'); }
       };
       content.append(h('div', { class: 'row' }, inp, h('button', { class: 'btn', onclick: () => find(inp.value.trim()) }, t('find'))),
-        'BarcodeDetector' in window ? h('button', { class: 'btn ghost wide', onclick: () => scanBarcode(code => { inp.value = code; find(code); }) }, '📷 ' + t('barcode.scan')) : h('p', { class: 'muted small pad' }, t('barcode.noCamera')),
+        'BarcodeDetector' in window ? h('button', { class: 'btn ghost wide', onclick: () => scanBarcode(code => { inp.value = code; find(code); }) }, h('span', { class: 'ttl' }, ic('scan', 18), t('barcode.scan'))) : h('p', { class: 'muted small pad' }, t('barcode.noCamera')),
         status);
     }
     drawTabs(); drawContent();
@@ -588,7 +591,7 @@ function openParseReview(items, date) {
     const foot = h('div', { class: 'review-foot' });
     function draw() {
       list.replaceChildren(...rows.map(r => {
-        if (!r.food) return h('div', { class: 'review-row unmatched' }, h('span', null, `❓ ${t('review.unknown')}: «${r.it.query}»`),
+        if (!r.food) return h('div', { class: 'review-row unmatched' }, h('span', { class: 'ttl' }, ic('help', 16), `${t('review.unknown')}: «${r.it.query}»`),
           h('button', { class: 'chip', onclick: () => { api.close(); openAddFood(meal, date, r.it.query); } }, t('review.findManual')));
         const opts = [r.it.food, ...r.it.alternatives].filter(Boolean);
         const k = r.grams / 100;
@@ -621,7 +624,7 @@ function viewFridge() {
   const rem = remainingFor(today());
   const input = h('textarea', { rows: 3, class: 'fridge-in', placeholder: t('fridge.placeholder'), oninput: e => { st.text = e.target.value; } }, st.text);
   const nodes = [h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '🧊 ' + t('fridge.title'))),
+    h('div', { class: 'card-title' }, ttl('fridge', t('fridge.title'))),
     h('p', { class: 'muted' }, t('fridge.text')),
     input,
     h('div', { class: 'chips' }, (S.lang === 'ru' ? ['куриная грудка', 'рис', 'яйца', 'помидоры', 'творог', 'гречка', 'брокколи', 'тунец'] : ['chicken breast', 'rice', 'eggs', 'tomatoes', 'cottage cheese', 'buckwheat', 'broccoli', 'tuna'])
@@ -657,14 +660,14 @@ function recipeCard(rc) {
   const missing = rc.ingredients.filter(i => !i.have);
   const det = h('details', { class: 'recipe-det' },
     h('summary', null, t('fridge.details')),
-    h('ul', { class: 'ing' }, rc.ingredients.map(i => h('li', { class: i.have ? 'have' : 'miss' }, (i.have ? '✓ ' : '＋ ') + `${i.name} — ${i.grams} ${t('g')}`))),
+    h('ul', { class: 'ing' }, rc.ingredients.map(i => h('li', { class: i.have ? 'have' : 'miss' }, h('span', { class: 'ing-ic' }, ic(i.have ? 'check' : 'plus', 14)), ` ${i.name} — ${i.grams} ${t('g')}`))),
     h('ol', { class: 'steps' }, rc.steps.map(s => h('li', null, s))));
   return h('section', { class: 'card recipe' },
-    h('div', { class: 'card-title' }, h('b', null, rc.name), h('span', { class: 'pill' }, `⏱ ${rc.minutes} ${t('min')}`)),
+    h('div', { class: 'card-title' }, h('b', null, rc.name), h('span', { class: 'pill' }, ic('clock', 13), ` ${rc.minutes} ${t('min')}`)),
     h('div', { class: 'r-kcal' }, h('span', { class: 'big' }, rc.kcalScaled), ' ', t('kcal'),
       rc.scale !== 1 ? h('span', { class: 'pill soft' }, `${t('fridge.portion')} ×${rc.scale}`) : null),
     h('div', { class: 'muted' }, fmtMacros({ p: rc.pScaled, f: rc.fScaled, c: rc.cScaled })),
-    h('div', { class: 'cov' + (missing.length ? '' : ' full') }, missing.length ? `${t('fridge.missing')}: ${missing.map(m => m.name).join(', ')}` : '✓ ' + t('fridge.allHave')),
+    h('div', { class: 'cov' + (missing.length ? '' : ' full') }, missing.length ? `${t('fridge.missing')}: ${missing.map(m => m.name).join(', ')}` : [ic('check', 14), ' ' + t('fridge.allHave')]),
     det,
     h('div', { class: 'row' }, h('button', { class: 'btn', onclick: () => addRecipe(rc) }, t('fridge.addToDiary'))));
 }
@@ -726,7 +729,7 @@ function viewInsights() {
   const nodes = [];
 
   nodes.push(h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '📊 ' + t('ins.last14'))),
+    h('div', { class: 'card-title' }, ttl('bars', t('ins.last14'))),
     barChart(vals, base, days.map(k => parseYmd(k).getDate())),
     h('div', { class: 'stats' },
       h('div', null, h('b', null, last7.length ? r0(mean(last7.map(x => x.kcal))) : '—'), h('span', null, t('ins.avgKcal'))),
@@ -737,7 +740,7 @@ function viewInsights() {
   const ins = computeInsights();
   const unit = (v, u, f) => f === 'water' ? `${r1(v)} ${t('l')}` : f === 'sleep' ? `${r1(v)} ${t('hours')}` : u === 'g' ? `${r0(v)} ${t('g')}` : u === 'kcal' ? `${r0(v)} ${t('kcal')}` : r1(v);
   const card = h('section', { class: 'card insights' },
-    h('div', { class: 'card-title' }, h('span', null, '🔬 ' + t('ins.smart'))),
+    h('div', { class: 'card-title' }, ttl('bulb', t('ins.smart'))),
     h('p', { class: 'muted small' }, t('ins.smartHint')));
   if (!ins.list.length) {
     const needed = ins.rows.length < 7;
@@ -752,12 +755,12 @@ function viewInsights() {
         h('div', { class: 'ins-body' }, t('ins.compare', { feat: t('feat.' + x.f).toLowerCase(), thr: unit(x.med, x.fu, x.f), out: t('out.' + x.o).toLowerCase(), hi: oFmt(x.hi), lo: oFmt(x.lo) })),
         h('div', { class: 'muted small' }, `${strength} (r = ${x.r.toFixed(2)}, ${t('ins.days', { n: x.n })})`)));
     });
-    card.append(h('p', { class: 'muted small' }, '⚠️ ' + t('ins.disclaimer')));
+    card.append(h('p', { class: 'muted small ttl' }, ic('warn', 14), t('ins.disclaimer')));
   }
   const hasDemo = S.demoKeys.length > 0;
   if (!Cloud.user) card.append(h('div', { class: 'row' },
     hasDemo ? h('button', { class: 'btn ghost', onclick: () => { removeDemo(); render(); toast(t('ins.demoRemoved')); } }, t('ins.removeDemo'))
-      : h('button', { class: 'btn ghost', onclick: () => { if (fillDemo()) { render(); toast(t('ins.demoAdded')); } } }, '🎲 ' + t('ins.demo'))));
+      : h('button', { class: 'btn ghost', onclick: () => { if (fillDemo()) { render(); toast(t('ins.demoAdded')); } } }, h('span', { class: 'ttl' }, ic('dice', 18), t('ins.demo')))));
   nodes.push(card);
 
   // вес
@@ -766,7 +769,7 @@ function viewInsights() {
   const first = wk.length ? S.weights[wk[0]] : null;
   const wInput = h('input', { type: 'number', inputmode: 'decimal', step: '0.1', min: 20, max: 400, placeholder: last ? String(last) : '70.0' });
   nodes.push(h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '⚖️ ' + t('weight.title')), last ? h('span', { class: 'pill' }, `${last} ${t('kg')}${wk.length > 1 ? ` (${last - first >= 0 ? '+' : ''}${r1(last - first)})` : ''}`) : null),
+    h('div', { class: 'card-title' }, ttl('gauge', t('weight.title')), last ? h('span', { class: 'pill' }, `${last} ${t('kg')}${wk.length > 1 ? ` (${last - first >= 0 ? '+' : ''}${r1(last - first)})` : ''}`) : null),
     wk.length > 1 ? lineChart(wk.slice(-60).map(k => ({ x: parseYmd(k).getTime(), y: S.weights[k] }))) : h('p', { class: 'muted' }, t('weight.hint')),
     h('div', { class: 'row' }, wInput, h('button', { class: 'btn', onclick: () => {
       const v = num(wInput.value);
@@ -827,7 +830,7 @@ function viewSettings() {
   if (acc) nodes.push(acc);
 
   nodes.push(h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '👤 ' + t('set.profile'))),
+    h('div', { class: 'card-title' }, ttl('user', t('set.profile'))),
     h('div', { class: 'grid2' },
       field(t('set.sex'), select([['f', t('set.female')], ['m', t('set.male')]], p.sex, v => { upd('sex', v); render(); })),
       numField('age', t('set.age'), 14, 100),
@@ -844,12 +847,12 @@ function viewSettings() {
       h('div', null, h('span', { class: 'muted' }, t('protein') + ' / ' + t('fat') + ' / ' + t('carbs')), h('b', null, `${tg.p} / ${tg.f} / ${tg.c} ${t('g')}`)))));
 
   nodes.push(h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '🗓️ ' + t('set.flexTitle'))),
+    h('div', { class: 'card-title' }, ttl('calendar', t('set.flexTitle'))),
     h('label', { class: 'check big' }, h('input', { type: 'checkbox', checked: S.flex, onchange: e => { S.flex = e.target.checked; save(); render(); } }), t('set.flexOn')),
     h('p', { class: 'muted small' }, t('set.flexHint'))));
 
   nodes.push(h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '💾 ' + t('set.data'))),
+    h('div', { class: 'card-title' }, ttl('download', t('set.data'))),
     h('p', { class: 'muted small' }, t('set.dataHint')),
     h('div', { class: 'row wrap' },
       h('button', { class: 'btn ghost', onclick: exportJson }, t('set.exportJson')),
@@ -858,7 +861,7 @@ function viewSettings() {
     h('div', { class: 'row' }, h('button', { class: 'btn danger-soft', onclick: wipeAll }, t('set.wipe')))));
 
   nodes.push(h('section', { class: 'card about' },
-    h('div', { class: 'card-title' }, h('span', null, '💚 ' + t('about.title'))),
+    h('div', { class: 'card-title' }, ttl('heart', t('about.title'))),
     h('ul', { class: 'about-list' }, ['about.1', 'about.2', 'about.3', 'about.4', 'about.5', 'about.6'].map(k => h('li', null, t(k)))),
     h('p', { class: 'muted small' }, t('about.disclaimer'))));
 
@@ -902,7 +905,7 @@ function syncLabel() {
 }
 function updateBadge() {
   const b = $('#sync-badge');
-  if (b) { b.textContent = ({ syncing: '🔄', pending: '☁️…', error: '⚠️', ok: '☁️✓', off: '☁️', idle: '☁️' })[sync.state] || '☁️'; b.title = syncLabel(); b.dataset.state = sync.state; }
+  if (b) { b.replaceChildren(ic(({ syncing: 'sync', pending: 'cloud', error: 'warn', ok: 'cloudok', off: 'cloud', idle: 'cloud' })[sync.state] || 'cloud', 18)); b.title = syncLabel(); b.dataset.state = sync.state; }
   const l = $('#sync-line');
   if (l) l.textContent = syncLabel() + (sync.state === 'error' && sync.err ? ' — ' + sync.err : '');
 }
@@ -953,12 +956,12 @@ function accountCard() {
   if (!Cloud.enabled) return null;
   if (!Cloud.user) {
     return h('section', { class: 'card' },
-      h('div', { class: 'card-title' }, h('span', null, '☁️ ' + t('acc.title'))),
+      h('div', { class: 'card-title' }, ttl('cloud', t('acc.title'))),
       h('p', { class: 'muted' }, t('acc.pitch')),
       h('div', { class: 'row' }, h('button', { class: 'btn', onclick: () => openAuth('signin') }, t('acc.signin')), h('button', { class: 'btn ghost', onclick: () => openAuth('signup') }, t('acc.signup'))));
   }
   return h('section', { class: 'card' },
-    h('div', { class: 'card-title' }, h('span', null, '☁️ ' + t('acc.title'))),
+    h('div', { class: 'card-title' }, ttl('cloud', t('acc.title'))),
     h('p', null, h('b', null, Cloud.user.email || 'Google')),
     h('p', { id: 'sync-line', class: 'muted small' }, syncLabel()),
     h('div', { class: 'row wrap' },
@@ -1041,11 +1044,11 @@ function openAuth(mode = 'signin') {
       busy = false; submit.disabled = false;
     }
     pass.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-    api.body.append(tabs,
+    api.body.append(...[tabs,
       field('Email', email), passField, submit, forgot, msg,
       Cloud.google ? h('div', null, h('div', { class: 'or' }, t('acc.or')),
         h('button', { class: 'btn ghost wide google', onclick: async () => { try { const { error } = await Cloud.signInGoogle(); if (error) throw error; } catch (e) { show(authError(e)); } } }, 'G  ' + t('acc.google'))) : null,
-      h('p', { class: 'muted small' }, t('acc.privacy')));
+      h('p', { class: 'muted small' }, t('acc.privacy'))].filter(Boolean));
     draw();
     setTimeout(() => email.focus(), 60);
   });
@@ -1107,7 +1110,6 @@ function importJson(e) {
 }
 
 /* ───────────── старт ───────────── */
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { if (S.theme === 'auto') render(); });
 render();
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 window.__freefork = { get state() { return S; }, render, mergeStates, stable, syncNow };
