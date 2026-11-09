@@ -1,44 +1,51 @@
 # 🍴 FreeFork — бесплатный счётчик калорий
 
-Без рекламы, подписок и регистрации. Данные хранятся **только в браузере** пользователя.
-Стек: **ASP.NET Core 8 (C#) + чистый HTML/CSS/JS** (никаких npm и сборщиков).
+Без рекламы и подписок. Регистрация **не обязательна**: без входа данные хранятся только в браузере;
+если войти (почта+пароль или Google), дневник синхронизируется между устройствами через Supabase.
+
+Сайт — **статический** (чистый HTML/CSS/JS, без npm и сборщиков): вся логика (парсер текста, поиск, рецепты,
+Open Food Facts) работает прямо в браузере, поэтому его можно разместить на любом бесплатном статическом хостинге
+и он работает офлайн как PWA. Проект .NET нужен только как локальный хост для запуска из Visual Studio.
 
 ## Чем FreeFork отличается от остальных
 | Фишка | Что делает |
 |---|---|
-| 🗓️ **Гибкая неделя** | Калории считаются на неделю: переели вчера — сегодняшний ориентир мягко ниже (в пределах −20%/+25%). Никаких «красных» цифр и штрафов. |
-| 🧊 **Холодильник → рецепты** | Перечисляете продукты — получаете блюда, а порция подгоняется под *оставшиеся* калории и БЖУ дня. |
-| 🔬 **Умные инсайты** | Отмечаете настроение/энергию/сон → FreeFork находит связи («при белке ≥ 106 г энергия выше на 1 балл»). Есть демо-данные. |
+| 🗓️ **Гибкая неделя** | Калории считаются на неделю: переели вчера — сегодняшний ориентир мягко ниже (−20%/+25%). Без «красных» цифр. |
+| 🧊 **Холодильник → рецепты** | Перечисляете продукты — получаете блюда, порция подгоняется под *оставшиеся* калории и БЖУ дня. |
+| 🔬 **Умные инсайты** | Настроение/энергия/сон → связи с питанием. Есть демо-данные. |
 | ✨ **Ввод текстом** | «2 яйца и тост, 150 г гречки, стакан молока» → список с граммами и КБЖУ. |
-| 🔒 **Приватность** | Без аккаунтов, данные в `localStorage`, экспорт/импорт JSON и CSV. |
-| 🌍 **Огромная база** | Встроенные ~140 продуктов (ru/en) + Open Food Facts (миллионы продуктов, штрихкоды, бесплатный API). |
+| 🔒 **Приватность** | Вход по желанию, данные видны только владельцу (Row Level Security), экспорт/импорт JSON и CSV. |
+| 🌍 **База** | Встроенные ~140 продуктов (ru/en, работают офлайн) + Open Food Facts (штрихкоды). |
 
-## Запуск в Visual Studio
+## Запуск локально (Visual Studio)
 1. Установите [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) и Visual Studio 2022 (workload **ASP.NET and web development**).
-2. Откройте `FreeFork.sln` → нажмите **F5** (профиль `http`, адрес `http://localhost:5098`).
+2. Откройте `FreeFork.sln` → **F5** (`http://localhost:5098`). Из консоли: `dotnet run --project src/FreeFork`.
+Либо просто раздайте папку `src/FreeFork/wwwroot` любым статическим сервером.
 
-Из консоли: `dotnet run --project src/FreeFork`.
+## Облако (необязательно)
+1. Создайте проект на [supabase.com](https://supabase.com) → SQL Editor → выполните `supabase/schema.sql`.
+2. Authentication → URL Configuration: добавьте адрес сайта в **Site URL** и **Redirect URLs**.
+3. Project Settings → API: скопируйте **Project URL** и **anon public key** в `src/FreeFork/wwwroot/js/config.js`
+   (эти значения публичные, защита — в правилах RLS).
+4. Google: Authentication → Providers → Google, затем `google: true` в `config.js`.
+Пока `config.js` пустой, кнопок входа на сайте нет.
+
+## Хостинг
+Любой статический: GitHub Pages (workflow `.github/workflows/pages.yml` уже есть), Cloudflare Pages, Netlify, Vercel и т. д.
+Публикуется содержимое `src/FreeFork/wwwroot`.
 
 ## Структура
 ```
-src/FreeFork/
-  Program.cs                 минимальный API (/api/parse, /api/fridge, /api/foods/*)
-  Services/FoodIndex.cs      поиск по встроенной базе (учёт окончаний, ru/en)
-  Services/TextParser.cs     разбор свободного текста
-  Services/RecipeEngine.cs   подбор рецептов и подгонка порции
-  Services/OpenFoodFacts.cs  клиент Open Food Facts + кэш
-  Data/foods.json            база продуктов (на 100 г)   ← генерируется tools/gen_data.py
-  Data/recipes.json          рецепты
-  wwwroot/                   фронтенд (index.html, js/app.js, js/i18n.js, css/app.css, PWA)
-tools/gen_data.py            редактируйте продукты/рецепты здесь и запускайте: python3 tools/gen_data.py
+src/FreeFork/wwwroot/
+  index.html, manifest.webmanifest, sw.js, icon.svg
+  js/engine.js    поиск, разбор текста, рецепты, Open Food Facts (в браузере)
+  js/app.js       интерфейс, дневник, синхронизация
+  js/cloud.js     Supabase: вход и облачное хранилище
+  js/config.js    адрес и публичный ключ Supabase
+  js/vendor/      supabase-js (локальная копия, без CDN)
+  data/           foods.json, recipes.json   ← генерирует tools/gen_data.py
+supabase/schema.sql   таблица user_data + RLS + удаление аккаунта
+tools/gen_data.py     правьте продукты/рецепты здесь: python3 tools/gen_data.py
 ```
-
-## Бесплатный хостинг
-Приложение лёгкое (кэш в памяти, нет БД). Подойдут бесплатные тарифы Azure App Service (F1), Fly.io, Render или Railway — есть `Dockerfile`.
-`dotnet publish -c Release -o publish` — для обычного хостинга.
-
-## Идеи на будущее
-- Офлайн-поиск (отдавать базу клиенту), напоминания, фото-журнал, семейные профили через QR-синхронизацию.
-- Больше рецептов и продуктов — просто дополните `tools/gen_data.py`.
 
 > Справочный инструмент, не медицинская рекомендация.

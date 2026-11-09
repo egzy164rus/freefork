@@ -1,7 +1,7 @@
 # Генератор встроенной базы продуктов и рецептов (значения на 100 г / 100 мл).
-# Запуск: python3 tools/gen_data.py  -> src/FreeFork/Data/foods.json, recipes.json
+# Запуск: python3 tools/gen_data.py  -> src/FreeFork/wwwroot/data/foods.json, recipes.json
 import json, os
-OUT = os.path.join(os.path.dirname(__file__), "..", "src", "FreeFork", "Data")
+OUT = os.path.join(os.path.dirname(__file__), "..", "src", "FreeFork", "wwwroot", "data")
 
 # id|ru|en|kcal|p|f|c|fiber|piece_g|piece_ru|piece_en|portion_g|family|aliases
 F = """

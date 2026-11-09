@@ -3,8 +3,5 @@
   "framework": null,
   "installCommand": "",
   "buildCommand": "",
-  "outputDirectory": "src/FreeFork/wwwroot",
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://freefork.onrender.com/api/:path*" }
-  ]
+  "outputDirectory": "src/FreeFork/wwwroot"
 }

@@ -79,12 +79,15 @@ function load() {
 }
 let S = load();
 let saveTimer;
-function save() {
+function persist() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch { toast(t('storageFull')); }
+}
+function save(touch = true) {
+  if (touch) S.updatedAt = Date.now();
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try { localStorage.setItem(KEY, JSON.stringify(S)); }
-    catch { toast(t('storageFull')); }
-  }, 50);
+  saveTimer = setTimeout(persist, 50);
+  scheduleSync();
 }
 let view = 'today';
 let cur = today();
@@ -102,6 +105,7 @@ function targets() {
 const EMPTY_DAY = Object.freeze({ entries: [], water: 0 });
 const getDay = (k, create = false) => {
   if (!S.days[k]) { if (!create) return EMPTY_DAY; S.days[k] = { entries: [], water: 0 }; }
+  if (create) S.days[k].mt = Date.now();   // метка изменения — нужна для слияния между устройствами
   return S.days[k];
 };
 function entNut(e) {
@@ -202,10 +206,21 @@ function field(label, input, hint) {
 function select(options, value, onChange) {
   return h('select', { value, onchange: e => onChange(e.target.value) }, options.map(([v, l]) => h('option', { value: v }, l)));
 }
+/** Раньше это были запросы к серверу; теперь всё считается в браузере (js/engine.js). */
 async function apiCall(path, body) {
-  const res = await fetch('/api' + path, body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) } : undefined);
-  if (!res.ok) throw new Error(res.status);
-  return res.json();
+  const E = window.Engine;
+  if (path === '/parse') return E.parse(body.text, body.lang);
+  if (path === '/fridge') return E.fridge(body);
+  const u = new URL(path, 'http://local');
+  const q = u.searchParams.get('q') || '', lang = u.searchParams.get('lang') || S.lang;
+  if (u.pathname === '/foods/search') return E.search(q, lang);
+  if (u.pathname === '/foods/online') return E.online(q, lang);
+  if (u.pathname.startsWith('/foods/barcode/')) {
+    const f = await E.barcode(decodeURIComponent(u.pathname.split('/').pop()), lang);
+    if (!f) throw new Error('not found');
+    return f;
+  }
+  throw new Error('unknown route ' + path);
 }
 const mealName = m => t('meal.' + m);
 const fmtMacros = f => `${t('p')} ${r1(f.p)} · ${t('f')} ${r1(f.f)} · ${t('c')} ${r1(f.c)}`;
@@ -267,11 +282,14 @@ function render() {
     h('header', { class: 'topbar' },
       h('div', { class: 'brand' }, h('span', { class: 'logo' }, '🍴'), h('span', null, 'FreeFork'), h('span', { class: 'badge-free' }, t('free'))),
       h('div', { class: 'top-actions' },
+        Cloud.enabled && !Cloud.user ? h('button', { class: 'chip login', onclick: () => openAuth('signin') }, t('acc.signinShort')) : null,
+        Cloud.enabled && Cloud.user ? h('button', { id: 'sync-badge', class: 'chip sync', onclick: () => { view = 'settings'; render(); window.scrollTo(0, 0); } }) : null,
         h('button', { class: 'chip', onclick: () => { S.lang = S.lang === 'ru' ? 'en' : 'ru'; save(); render(); }, 'aria-label': 'Language' }, S.lang === 'ru' ? 'RU' : 'EN'),
         h('button', { class: 'chip', onclick: () => { S.theme = theme === 'dark' ? 'light' : 'dark'; save(); render(); }, 'aria-label': 'Theme' }, theme === 'dark' ? '☀️' : '🌙'))),
     h('main', { class: 'content' }, main),
     h('nav', { class: 'bottom-nav' }, VIEWS.map(([v, ic]) =>
       h('button', { class: v === view ? 'active' : '', onclick: () => { view = v; render(); window.scrollTo(0, 0); } }, h('span', { class: 'nav-ic' }, ic), h('span', null, t('nav.' + v))))));
+  updateBadge();
   window.scrollTo(0, y);
 }
 
@@ -292,6 +310,14 @@ function viewToday() {
     nodes.push(h('div', { class: 'card banner' },
       h('div', null, h('b', null, t('welcome.title')), h('p', null, t('welcome.text'))),
       h('button', { class: 'btn', onclick: () => { view = 'settings'; render(); } }, t('welcome.cta'))));
+  }
+
+  if (Cloud.enabled && !Cloud.user && !S.hideCloudBanner) {
+    nodes.push(h('div', { class: 'card banner cloud-banner' },
+      h('div', null, h('b', null, '☁️ ' + t('acc.bannerTitle')), h('p', null, t('acc.bannerText'))),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn', onclick: () => openAuth('signup') }, t('acc.signin')),
+        h('button', { class: 'icon-btn', 'aria-label': t('close'), onclick: () => { S.hideCloudBanner = true; save(false); render(); } }, '✕'))));
   }
 
   nodes.push(h('div', { class: 'datebar' },
@@ -550,7 +576,7 @@ function openEditEntry(e, date) {
       field(t('meal'), select(MEALS.map(x => [x, mealName(x)]), meal, v => { meal = v; })),
       h('div', { class: 'row' },
         h('button', { class: 'btn danger-soft', onclick: () => { const d = getDay(date, true); d.entries = d.entries.filter(x => x.id !== e.id); save(); api.close(); render(); } }, t('delete')),
-        h('button', { class: 'btn grow', onclick: () => { if (grams > 0) { e.grams = r0(grams); e.meal = meal; save(); api.close(); render(); } } }, t('save'))));
+        h('button', { class: 'btn grow', onclick: () => { if (grams > 0) { e.grams = r0(grams); e.meal = meal; getDay(date, true); save(); api.close(); render(); } } }, t('save'))));
   });
 }
 
@@ -729,7 +755,7 @@ function viewInsights() {
     card.append(h('p', { class: 'muted small' }, '⚠️ ' + t('ins.disclaimer')));
   }
   const hasDemo = S.demoKeys.length > 0;
-  card.append(h('div', { class: 'row' },
+  if (!Cloud.user) card.append(h('div', { class: 'row' },
     hasDemo ? h('button', { class: 'btn ghost', onclick: () => { removeDemo(); render(); toast(t('ins.demoRemoved')); } }, t('ins.removeDemo'))
       : h('button', { class: 'btn ghost', onclick: () => { if (fillDemo()) { render(); toast(t('ins.demoAdded')); } } }, '🎲 ' + t('ins.demo'))));
   nodes.push(card);
@@ -797,6 +823,9 @@ function viewSettings() {
   const numField = (k, label, min, max, step = 1) => field(label, h('input', { type: 'number', inputmode: 'decimal', min, max, step, value: p[k], onchange: e => { upd(k, clamp(num(e.target.value, p[k]), min, max)); render(); } }));
   const nodes = [];
 
+  const acc = accountCard();
+  if (acc) nodes.push(acc);
+
   nodes.push(h('section', { class: 'card' },
     h('div', { class: 'card-title' }, h('span', null, '👤 ' + t('set.profile'))),
     h('div', { class: 'grid2' },
@@ -826,7 +855,7 @@ function viewSettings() {
       h('button', { class: 'btn ghost', onclick: exportJson }, t('set.exportJson')),
       h('button', { class: 'btn ghost', onclick: exportCsv }, t('set.exportCsv')),
       h('label', { class: 'btn ghost file' }, t('set.import'), h('input', { type: 'file', accept: 'application/json,.json', hidden: true, onchange: importJson }))),
-    h('div', { class: 'row' }, h('button', { class: 'btn danger-soft', onclick: () => { if (confirm(t('set.wipeConfirm'))) { localStorage.removeItem(KEY); S = defaults(); render(); toast(t('set.wiped')); } } }, t('set.wipe')))));
+    h('div', { class: 'row' }, h('button', { class: 'btn danger-soft', onclick: wipeAll }, t('set.wipe')))));
 
   nodes.push(h('section', { class: 'card about' },
     h('div', { class: 'card-title' }, h('span', null, '💚 ' + t('about.title'))),
@@ -835,6 +864,220 @@ function viewSettings() {
 
   return h('div', { class: 'stack' }, nodes);
 }
+
+/* ───────────── облако: слияние, синхронизация, вход ───────────── */
+const sync = { state: 'off', last: null, timer: null, busy: false, again: false, err: '' };
+
+function stable(o) {
+  if (Array.isArray(o)) return '[' + o.map(stable).join(',') + ']';
+  if (o && typeof o === 'object') return '{' + Object.keys(o).sort().map(k => JSON.stringify(k) + ':' + stable(o[k])).join(',') + '}';
+  return JSON.stringify(o);
+}
+/** Слияние локальных и облачных данных: дни — по времени последнего изменения, настройки — от более свежей версии. */
+function mergeStates(local, remote) {
+  const base = defaults();
+  const r = Object.assign(base, remote);
+  r.profile = Object.assign(defaults().profile, remote.profile || {});
+  const newer = (local.updatedAt || 0) >= (r.updatedAt || 0) ? local : r;
+  const out = JSON.parse(JSON.stringify(newer));
+  out.lang = local.lang; out.theme = local.theme;
+  out.days = {};
+  const keys = new Set([...Object.keys(local.days || {}), ...Object.keys(r.days || {})]);
+  for (const k of keys) {
+    const a = (local.days || {})[k], b = (r.days || {})[k];
+    out.days[k] = !a ? b : !b ? a : ((a.mt || 0) >= (b.mt || 0) ? a : b);
+  }
+  out.weights = Object.assign({}, newer === local ? r.weights : local.weights, newer.weights);
+  out.demoKeys = [];
+  out.updatedAt = Math.max(local.updatedAt || 0, r.updatedAt || 0);
+  return out;
+}
+function setSyncState(st) { sync.state = st; updateBadge(); }
+function syncLabel() {
+  if (sync.state === 'syncing') return t('sync.syncing');
+  if (sync.state === 'pending') return t('sync.pending');
+  if (sync.state === 'error') return t('sync.error');
+  if (sync.last) return t('sync.ok', { time: new Date(sync.last).toLocaleTimeString(locale(), { hour: '2-digit', minute: '2-digit' }) });
+  return t('sync.idle');
+}
+function updateBadge() {
+  const b = $('#sync-badge');
+  if (b) { b.textContent = ({ syncing: '🔄', pending: '☁️…', error: '⚠️', ok: '☁️✓', off: '☁️', idle: '☁️' })[sync.state] || '☁️'; b.title = syncLabel(); b.dataset.state = sync.state; }
+  const l = $('#sync-line');
+  if (l) l.textContent = syncLabel() + (sync.state === 'error' && sync.err ? ' — ' + sync.err : '');
+}
+function scheduleSync(delay = 2500) {
+  if (!Cloud.enabled || !Cloud.user) return;
+  clearTimeout(sync.timer);
+  sync.timer = setTimeout(syncNow, delay);
+  if (!sync.busy) setSyncState('pending');
+}
+async function syncNow() {
+  if (!Cloud.user) return;
+  if (sync.busy) { sync.again = true; return; }
+  sync.busy = true; setSyncState('syncing');
+  try {
+    const beforeStr = stable(S);
+    persist();
+    const remote = await Cloud.pull();
+    let remoteStr = null;
+    if (remote && remote.data && typeof remote.data === 'object' && remote.data.days && typeof remote.data.days === 'object') {
+      remoteStr = stable(remote.data);
+      S = mergeStates(S, remote.data);
+    }
+    if (remoteStr !== stable(S)) await Cloud.push(S);
+    persist();
+    sync.last = Date.now(); sync.err = '';
+    setSyncState('ok');
+    if (stable(S) !== beforeStr) render();
+  } catch (e) {
+    sync.err = authError(e);
+    setSyncState('error');
+  } finally {
+    sync.busy = false;
+    if (sync.again) { sync.again = false; scheduleSync(500); }
+  }
+}
+function authError(e) {
+  const m = String((e && e.message) || e || '');
+  if (/invalid login credentials/i.test(m)) return t('err.badLogin');
+  if (/already (been )?registered/i.test(m)) return t('err.exists');
+  if (/not confirmed/i.test(m)) return t('err.notConfirmed');
+  if (/at least \d+ char|weak|should contain/i.test(m)) return t('err.weakPass');
+  if (/rate limit|too many|security purposes/i.test(m)) return t('err.rate');
+  if (/failed to fetch|network|abort|timeout|load failed|fetch/i.test(m)) return t('err.network');
+  return m || t('err.unknown');
+}
+
+function accountCard() {
+  if (!Cloud.enabled) return null;
+  if (!Cloud.user) {
+    return h('section', { class: 'card' },
+      h('div', { class: 'card-title' }, h('span', null, '☁️ ' + t('acc.title'))),
+      h('p', { class: 'muted' }, t('acc.pitch')),
+      h('div', { class: 'row' }, h('button', { class: 'btn', onclick: () => openAuth('signin') }, t('acc.signin')), h('button', { class: 'btn ghost', onclick: () => openAuth('signup') }, t('acc.signup'))));
+  }
+  return h('section', { class: 'card' },
+    h('div', { class: 'card-title' }, h('span', null, '☁️ ' + t('acc.title'))),
+    h('p', null, h('b', null, Cloud.user.email || 'Google')),
+    h('p', { id: 'sync-line', class: 'muted small' }, syncLabel()),
+    h('div', { class: 'row wrap' },
+      h('button', { class: 'btn', onclick: () => syncNow() }, t('sync.now')),
+      h('button', { class: 'btn ghost', onclick: logout }, t('acc.signout')),
+      h('button', { class: 'btn ghost', onclick: () => openNewPassword() }, t('acc.changePass'))),
+    h('details', { class: 'recipe-det' }, h('summary', null, t('acc.danger')),
+      h('p', { class: 'muted small' }, t('acc.dangerText')),
+      h('div', { class: 'row wrap' },
+        h('button', { class: 'btn danger-soft', onclick: deleteCloud }, t('acc.deleteCloud')),
+        h('button', { class: 'btn danger-soft', onclick: deleteAccount }, t('acc.deleteAccount')))));
+}
+async function logout() {
+  await syncNow();   // последняя отправка перед выходом
+  try { await Cloud.signOut(); } catch { /* уже вышли */ }
+  if (confirm(t('acc.clearLocal'))) { localStorage.removeItem(KEY); S = defaults(); }
+  view = 'today'; render(); toast(t('acc.signedOut'));
+}
+async function deleteCloud() {
+  if (!confirm(t('acc.deleteCloudConfirm'))) return;
+  try { await Cloud.deleteData(); sync.last = null; toast(t('acc.cloudDeleted')); } catch (e) { toast(authError(e)); }
+  render();
+}
+async function deleteAccount() {
+  if (!confirm(t('acc.deleteAccountConfirm'))) return;
+  try {
+    await Cloud.deleteAccount();
+    toast(t('acc.accountDeleted'));
+    Cloud.user = null; setSyncState('off'); render();
+  } catch (e) { toast(authError(e)); }
+}
+async function wipeAll() {
+  if (Cloud.user) {
+    if (!confirm(t('set.wipeCloudConfirm'))) return;
+    try { await Cloud.deleteData(); } catch (e) { toast(authError(e)); return; }
+  } else if (!confirm(t('set.wipeConfirm'))) return;
+  clearTimeout(sync.timer);
+  localStorage.removeItem(KEY); S = defaults(); render(); toast(t('set.wiped'));
+}
+
+function openAuth(mode = 'signin') {
+  modal(t('acc.title'), api => {
+    let m = mode, busy = false;
+    const msg = h('p', { class: 'form-msg', role: 'alert' });
+    const email = h('input', { type: 'email', autocomplete: 'email', placeholder: 'you@example.com', inputmode: 'email' });
+    const pass = h('input', { type: 'password', minlength: 6 });
+    const tabs = h('div', { class: 'tabs' });
+    const submit = h('button', { class: 'btn wide', onclick: go }, '');
+    const forgot = h('button', { class: 'link-btn', onclick: async () => {
+      if (!/@/.test(email.value)) { show(t('err.needEmail')); return; }
+      try { const { error } = await Cloud.resetPassword(email.value.trim()); if (error) throw error; show(t('acc.resetSent'), true); } catch (e) { show(authError(e)); }
+    } }, t('acc.forgot'));
+    const passField = field(t('acc.password'), pass, null);
+    function show(text, ok = false) { msg.textContent = text; msg.className = 'form-msg' + (ok ? ' ok' : ''); }
+    function draw() {
+      tabs.replaceChildren(...[['signin', t('acc.signin')], ['signup', t('acc.signup')]].map(([k, l]) =>
+        h('button', { class: 'tab' + (k === m ? ' on' : ''), onclick: () => { m = k; show(''); draw(); } }, l)));
+      submit.textContent = m === 'signin' ? t('acc.signin') : t('acc.signup');
+      pass.autocomplete = m === 'signin' ? 'current-password' : 'new-password';
+      forgot.style.display = m === 'signin' ? '' : 'none';
+    }
+    async function go() {
+      if (busy) return;
+      const em = email.value.trim(), pw = pass.value;
+      if (!/^\S+@\S+\.\S+$/.test(em)) { show(t('err.needEmail')); return; }
+      if (pw.length < 6) { show(t('err.weakPass')); return; }
+      busy = true; submit.disabled = true; show('…', true);
+      try {
+        if (m === 'signin') {
+          const { error } = await Cloud.signIn(em, pw);
+          if (error) throw error;
+          api.close();
+        } else {
+          const { data, error } = await Cloud.signUp(em, pw);
+          if (error) throw error;
+          if (data.user && data.user.identities && data.user.identities.length === 0) throw new Error('already registered');
+          if (!data.session) show(t('acc.checkMail'), true); else api.close();
+        }
+      } catch (e) { show(authError(e)); }
+      busy = false; submit.disabled = false;
+    }
+    pass.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    api.body.append(tabs,
+      field('Email', email), passField, submit, forgot, msg,
+      Cloud.google ? h('div', null, h('div', { class: 'or' }, t('acc.or')),
+        h('button', { class: 'btn ghost wide google', onclick: async () => { try { const { error } = await Cloud.signInGoogle(); if (error) throw error; } catch (e) { show(authError(e)); } } }, 'G  ' + t('acc.google'))) : null,
+      h('p', { class: 'muted small' }, t('acc.privacy')));
+    draw();
+    setTimeout(() => email.focus(), 60);
+  });
+}
+function openNewPassword() {
+  modal(t('acc.changePass'), api => {
+    const pass = h('input', { type: 'password', autocomplete: 'new-password', minlength: 6 });
+    const msg = h('p', { class: 'form-msg', role: 'alert' });
+    api.body.append(field(t('acc.newPassword'), pass), msg, h('button', { class: 'btn wide', onclick: async () => {
+      if (pass.value.length < 6) { msg.textContent = t('err.weakPass'); return; }
+      try { const { error } = await Cloud.updatePassword(pass.value); if (error) throw error; api.close(); toast(t('saved')); }
+      catch (e) { msg.textContent = authError(e); }
+    } }, t('save')));
+    setTimeout(() => pass.focus(), 60);
+  });
+}
+
+if (Cloud.enabled) {
+  Cloud.on((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') { openNewPassword(); return; }
+    if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || event === 'USER_UPDATED') {
+      if (!session) { if (event === 'INITIAL_SESSION') render(); return; }
+      if (S.demoKeys.length) { removeDemo(); }          // демо-данные в облако не уходят
+      if (event === 'SIGNED_IN') toast(t('acc.signedIn'));
+      render();
+      syncNow();
+    } else if (event === 'SIGNED_OUT') { setSyncState('off'); render(); }
+  });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Cloud.user && (!sync.last || Date.now() - sync.last > 30000)) scheduleSync(300); });
+  window.addEventListener('online', () => scheduleSync(500));
+}
+
 function download(name, text, type) {
   const a = h('a', { href: URL.createObjectURL(new Blob([text], { type })), download: name });
   document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
@@ -866,6 +1109,6 @@ function importJson(e) {
 /* ───────────── старт ───────────── */
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { if (S.theme === 'auto') render(); });
 render();
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('/sw.js').catch(() => {});
-window.__freefork = { get state() { return S; }, render };
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+window.__freefork = { get state() { return S; }, render, mergeStates, stable, syncNow };
 })();

@@ -1,15 +1,19 @@
-// Минимальный service worker: приложение устанавливается на телефон,
-// оболочка открывается без сети, а API всегда идёт напрямую на сервер.
-const CACHE = 'freefork-v1';
-const SHELL = ['/', '/css/app.css', '/js/i18n.js', '/js/app.js', '/manifest.webmanifest', '/icon.svg'];
+// Service worker: приложение ставится на телефон, открывается и работает без сети
+// (встроенная база продуктов и рецепты лежат в data/*.json и кэшируются).
+const CACHE = 'freefork-v3';
+const SHELL = ['./', 'css/app.css', 'js/config.js', 'js/vendor/supabase.js', 'js/i18n.js', 'js/engine.js', 'js/cloud.js', 'js/app.js',
+  'data/foods.json', 'data/recipes.json', 'manifest.webmanifest', 'icon.svg'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.startsWith('/api/')) return;
+  // Только свои файлы. Облако (Supabase) и Open Food Facts идут напрямую в сеть.
+  if (e.request.method !== 'GET' || url.origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request).then(res => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); return res; })
-      .catch(() => caches.match(e.request).then(r => r || caches.match('/'))));
+    fetch(e.request).then(res => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+      return res;
+    }).catch(() => caches.match(e.request).then(r => r || caches.match('./'))));
 });

@@ -49,7 +49,7 @@ p{margin:.4em 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
 
 /* формы */
-input[type=text],input[type=number],input[type=search],select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);outline:none}
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=search],select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 textarea{resize:vertical}
 .field{display:flex;flex-direction:column;gap:5px;margin-top:10px}.field-label{font-size:.85rem;color:var(--muted);font-weight:600}.hint{font-size:.78rem;color:var(--muted)}
@@ -181,3 +181,13 @@ textarea{resize:vertical}
 .toast.hide{opacity:0}
 @media(max-width:420px){.summary{grid-template-columns:1fr;justify-items:center}.sum-side{width:100%}.grid2{grid-template-columns:1fr}.banner{flex-direction:column;align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* аккаунт и облако */
+.chip.login{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:650}
+.chip.sync[data-state=error]{border-color:var(--over)}
+.link-btn{border:0;background:none;color:var(--accent);cursor:pointer;padding:10px 2px;font-size:.9rem}
+.form-msg{min-height:1.2em;margin:8px 0 0;font-size:.9rem;color:#d9534f}
+.form-msg.ok{color:var(--accent)}
+.or{text-align:center;color:var(--muted);margin:12px 0 2px;font-size:.85rem}
+.btn.google{font-weight:700}
+.cloud-banner .row{margin-top:0}
